@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+    <head>
+        <title>Habituallife</title>
+        <meta charset="utf-8">
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700'
+              rel='stylesheet'
+              type='text/css'>
+        <link rel="stylesheet"
+              href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="{% static 'start/css/style.css' %}">
+    </head>
+    <body>
+        <!--    <div id="colorlib-page">-->
+        <!--      <header>-->
+        <!--      	<div class="container">-->
+        <!--	        <div class="colorlib-navbar-brand">-->
+        <!--	          <a class="colorlib-logo" href="index.html" style="color: black; font-family: Georgia, Times, serif;">Habitllife</a>-->
+        <!--	        </div>-->
+        <!--	        <a href="#" class="js-colorlib-nav-toggle colorlib-nav-toggle"><i></i></a>-->
+        <!--        </div>-->
+        <!--      </header>-->
+        <section class="hero-wrap js-fullheight">
+            {% block content %}{% endblock %}
+            <div class="container px-0">
+                <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center"
+                     data-scrollax-parent="true">
+                    <div class="col-md-12 ftco-animate text-center">
+                        <div class="desc">
+                            <h1 style="color: black; font-family: Georgia, Times, serif;">Habitual|life</h1>
+                            <button class="button-40" role="button">
+                                <a style="color: white" href="{% url 'login' %}">Log In</a>
+                            </button>
+                            <button class="button-40" role="button">
+                                <a style="color: white" href="{% url 'signup' %}">Sign Up</a>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<script src="{% static 'start/js/jquery.min.js' %}"></script>
+<script src="{% static 'start/js/popper.js' %}"></script>
+<script src="{% static 'start/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'start/js/main.js' %}"></script>
+</body>
+</html>
