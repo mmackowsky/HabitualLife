@@ -1,5 +1,6 @@
 from celery import shared_task
 from django.conf import settings
+from django.contrib.sites.models import Site
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
@@ -12,7 +13,7 @@ from django.contrib.auth.models import User
 @shared_task
 def send_email(user_pk, to_email):
     user = User.objects.get(pk=user_pk)
-    current_site = settings.HOST
+    current_site = Site.objects.get_current()
     mail_subject = "Activation link has been sent to your email id"
     message = render_to_string(
         "users/acc_active_email.html",
