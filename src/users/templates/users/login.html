@@ -1,6 +1,7 @@
-<!DOCTYPE html>
+{% extends 'start.html' %}
+{% block content %}
 {% load static %}
-<html lang="en">
+
     <head>
         <title>Login</title>
         <meta charset="utf-8">
@@ -27,17 +28,21 @@
                 <div class="col-md-6 col-lg-4">
                     <div class="login-wrap p-0">
                         <h3 class="mb-4 text-center" style="color: black">Have an account?</h3>
-                        <form action="#" class="signin-form">
+                        <form method="post" class="signin-form">
+                            {% csrf_token %}
                             <div class="form-group">
                                 <input type="text"
                                        class="form-control"
+                                       name="username"
+                                       id="username"
                                        placeholder="Username"
                                        style="background-color: gainsboro"
                                        required>
                             </div>
                             <div class="form-group">
-                                <input id="password-field"
+                                <input id="password"
                                        type="password"
+                                       name="password"
                                        class="form-control"
                                        placeholder="Password"
                                        style="background-color: gainsboro"
@@ -59,7 +64,7 @@
                                     </label>
                                 </div>
                                 <div class="w-50 text-md-right">
-                                    <a href="#" style="color: black">Forgot Password</a>
+                                    <a href="{% url 'password-reset' %}" style="color: black">Forgot Password</a>
                                 </div>
                             </div>
                         </form>
@@ -78,4 +83,4 @@
     <script src="{% static 'login/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'login/js/main.js' %}"></script>
 </body>
-</html>
+{% endblock %}
