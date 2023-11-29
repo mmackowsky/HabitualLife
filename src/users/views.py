@@ -7,17 +7,19 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.views import PasswordResetView
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import EmailMessage
 from django.http import HttpResponse, HttpRequest
 from django.shortcuts import render, redirect
+from django.template.loader import render_to_string
 from django.urls import reverse, reverse_lazy
-from django.utils.encoding import force_str
-from django.utils.http import urlsafe_base64_decode
+from django.utils.encoding import force_str, force_bytes
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.views import View
 from django.views.generic import FormView
 
 from .forms import SignupForm
 from .tokens import account_activation_token
-from .tasks import send_email
 
 
 class SignupView(FormView):
@@ -29,7 +31,7 @@ class SignupView(FormView):
         user.is_active = False
         user.save()
         to_email = form.cleaned_data.get("email")
-        send_email.delay(user_pk=user.id, to_email=to_email)
+        self.send_email(user, to_email)
         messages.info(
             self.request, "Please confirm your email address to complete registration"
         )
@@ -39,6 +41,22 @@ class SignupView(FormView):
         self.error_messages(form)
         logging.error("Form is not valid.")
         return super().form_invalid(form)
+
+    def send_email(self, user, to_email):
+        current_site = get_current_site(self.request)
+        mail_subject = "Activation link has been sent to your email id"
+        message = render_to_string(
+            "users/active_email.html",
+            {
+                "user": user,
+                "domain": current_site.domain,
+                "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+                "token": account_activation_token.make_token(user),
+            },
+        )
+        email = EmailMessage(mail_subject, message, to=[to_email])
+        email.send()
+        logging.debug("Email sent in activation case.")
 
     def error_messages(self, form):
         error_messages = []
@@ -106,7 +124,7 @@ class LoginView(View):
                     del self.request.session["next"]
                     return redirect(next_url)
                 else:
-                    return redirect(reverse("home"))
+                    return redirect(reverse("main"))
         messages.error(request, "Invalid username or password.")
         return render(
             request=request,
