@@ -12,6 +12,21 @@
         <link rel="stylesheet"
               href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <style>
+            /*LIST OF CATEGORIES*/
+        .category-list {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .visible {
+            max-height: 1000px;
+            transition: max-height 0.5s ease-in;
+        }
+        </style>
+
+        <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
     </head>
     <body>
         <div id="colorlib-page">
@@ -23,7 +38,12 @@
                             <a href="#">Home</a>
                         </li>
                         <li>
-                            <a href="#">Project</a>
+                            <a href="#" onmouseover="toggleCategories()">Categories</a>
+                            <ul class="category-list">
+                                <li><a href="#">&nbsp - Health</a></li>
+                                <li><a href="#">&nbsp - Finance</a></li>
+                                <li><a href="#">&nbsp - Work/learning</a></li>
+                            </ul>
                         </li>
                         <li>
                             <a href="#">About</a>
@@ -35,7 +55,7 @@
                             <a href="#">Blog</a>
                         </li>
                         <li>
-                            <a href="#">Contact</a>
+                            <a href="{% url 'logout' %}">Logout&nbsp<i class='fas fa-power-off'></i></a>
                         </li>
                     </ul>
                 </nav>
@@ -71,5 +91,34 @@
         </div>
         <!-- END COLORLIB-PAGE -->
     </section>
+
+    <script>
+    function toggleCategories() {
+    var categoryList = document.querySelector('.category-list');
+    categoryList.classList.toggle('visible');
+    }
+
+    var categoriesLink = document.querySelector('a[href="#"]');
+    var categoryList = document.querySelector('.category-list');
+
+    categoriesLink.addEventListener('mouseover', function() {
+        toggleCategories();
+    });
+
+    categoriesLink.addEventListener('mouseout', function(event) {
+        var e = event.relatedTarget;
+        if (!this.contains(e)) {
+            categoryList.classList.remove('visible');
+        }
+    });
+
+    categoryList.addEventListener('mouseout', function(event) {
+        var e = event.relatedTarget;
+        if (!this.contains(e)) {
+            categoryList.classList.remove('visible');
+        }
+    });
+    </script>
+
 </body>
 </html>
