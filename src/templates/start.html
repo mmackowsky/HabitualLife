@@ -14,17 +14,20 @@
         <link rel="stylesheet" href="{% static 'start/css/style.css' %}">
     </head>
     <body>
-        <!--    <div id="colorlib-page">-->
-        <!--      <header>-->
-        <!--      	<div class="container">-->
-        <!--	        <div class="colorlib-navbar-brand">-->
-        <!--	          <a class="colorlib-logo" href="index.html" style="color: black; font-family: Georgia, Times, serif;">Habitllife</a>-->
-        <!--	        </div>-->
-        <!--	        <a href="#" class="js-colorlib-nav-toggle colorlib-nav-toggle"><i></i></a>-->
-        <!--        </div>-->
-        <!--      </header>-->
+    {% block content %}
         <section class="hero-wrap js-fullheight">
-            {% block content %}{% endblock %}
+            {% if messages %}
+            {% for message in messages %}
+            <div class="container-fluid p-3">
+              <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+                </button>
+                {{ message }}
+              </div>
+            </div>
+            {% endfor %}
+            {% endif %}
             <div class="container px-0">
                 <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center"
                      data-scrollax-parent="true">
@@ -48,5 +51,7 @@
 <script src="{% static 'start/js/popper.js' %}"></script>
 <script src="{% static 'start/js/bootstrap.min.js' %}"></script>
 <script src="{% static 'start/js/main.js' %}"></script>
+    {% endblock %}
 </body>
+
 </html>
