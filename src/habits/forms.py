@@ -2,7 +2,7 @@ from django import forms
 from .models import Category, Habit
 
 
-class CategoryForm(forms.Form):
+class CategoryForm(forms.ModelForm):
     name = forms.CharField(max_length=100)
 
     class Meta:
