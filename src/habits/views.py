@@ -4,9 +4,30 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib import messages
-from django.views.generic.edit import CreateView, DeleteView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from .models import Habit, Category
 from .forms import HabitForm, CategoryForm
+
+
+class CategoryAddView(LoginRequiredMixin, CreateView):
+    model = Category
+    fields = ["name"]
+
+    # Add category "folder" for habits.
+
+
+class CategoryDeleteView(LoginRequiredMixin, DeleteView):
+    model = Category
+    form_class = CategoryForm
+
+    # Delete added category within all habits.
+
+
+class CategoryUpdateView(LoginRequiredMixin, UpdateView):
+    model = Category
+    form_class = CategoryForm
+
+    # Provide change name of category functionality
 
 
 class HabitAddView(LoginRequiredMixin, CreateView):
@@ -21,6 +42,10 @@ class HabitAddView(LoginRequiredMixin, CreateView):
 
         messages.success(self.request, "Habit added.")
         return super().form_valid(form)
+
+    def form_invalid(self, form):
+        logging.error(form.errors)
+        super().form_invalid(form)
 
 
 class HabitDeleteView(DeleteView):
@@ -39,3 +64,10 @@ class HabitDeleteView(DeleteView):
     def form_invalid(self, form):
         logging.error(form.errors)
         super().form_invalid(form)
+
+
+class HabitUpdateView(LoginRequiredMixin, UpdateView):
+    model = Habit
+    form_class = HabitForm
+
+    # Provide update option for object of Habit model.
