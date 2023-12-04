@@ -51,6 +51,8 @@ INSTALLED_APPS = [
 INSTALLED_EXTENSIONS = [
     'start',
     'users',
+    'habits',
+    'report',
 ]
 
 INSTALLED_APPS += INSTALLED_EXTENSIONS
