@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib import messages
+from django.views.generic import ListView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from .models import Habit, Category
 from .forms import HabitForm, CategoryForm
@@ -14,6 +15,9 @@ class CategoryAddView(LoginRequiredMixin, CreateView):
     fields = ["name"]
 
     # Add category "folder" for habits.
+    def form_valid(self, form):
+        form.instance.user = self.request.user.profile
+        return super().form_valid(form)
 
 
 class CategoryDeleteView(LoginRequiredMixin, DeleteView):
@@ -28,6 +32,15 @@ class CategoryUpdateView(LoginRequiredMixin, UpdateView):
     form_class = CategoryForm
 
     # Provide change name of category functionality
+    def form_valid(self, form):
+        form.instance.user = self.request.user.profile
+        return super().form_valid(form)
+
+
+class HabitListView(LoginRequiredMixin, ListView):
+    model = Habit
+
+    # Display habits for exact user.
 
 
 class HabitAddView(LoginRequiredMixin, CreateView):
