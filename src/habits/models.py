@@ -3,6 +3,7 @@ from django.db import models
 
 
 class Category(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
 
 
@@ -11,4 +12,5 @@ class Habit(models.Model):
     description = models.CharField(max_length=250)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     active = models.BooleanField(default=False)
+    is_positive = models.BooleanField()
     date = models.DateTimeField(auto_now_add=True)
