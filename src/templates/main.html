@@ -12,7 +12,10 @@
         <link rel="stylesheet"
               href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
+        <link rel="stylesheet" href="{% static 'main/scss/style.scss' %}"
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+
         <style>
             /*LIST OF CATEGORIES*/
         .category-list {
@@ -24,9 +27,106 @@
             max-height: 1000px;
             transition: max-height 0.5s ease-in;
         }
-        </style>
 
+            /*BUTTON*/
+        /* CSS */
+        .button-31 {
+          background-color: #222;
+          border-radius: 4px;
+          border-style: none;
+          box-sizing: border-box;
+          color: #fff;
+          cursor: pointer;
+          display: inline-block;
+          font-family: "Farfetch Basis","Helvetica Neue",Arial,sans-serif;
+          font-size: 16px;
+          font-weight: 700;
+          line-height: 1.5;
+          margin: 0;
+          max-width: none;
+          min-height: 44px;
+          min-width: 10px;
+          outline: none;
+          overflow: hidden;
+          padding: 9px 20px 8px;
+          position: relative;
+          text-align: center;
+          text-transform: none;
+          user-select: none;
+          -webkit-user-select: none;
+          touch-action: manipulation;
+          width: 15%;
+        }
+
+        .button-31:hover,
+        .button-31:focus {
+          opacity: .75;
+        }
+
+        {#        body{#}
+        {#  font-family: monospace;#}
+        {#  font-size: 20px;#}
+        {#  display: flex;#}
+        {#  align-items: center;#}
+        {#  justify-content: center;#}
+        {#  height: 100vh;#}
+        {#  margin:0;#}
+        {#  padding: 0;#}
+        {#  width: 100%;#}
+        {#}#}
+        /* Styl dla tła za dialogiem */
+        .background::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Tutaj definiujesz przezroczystość tła */
+            z-index: 1;
+            display: none;
+        }
+
+        /* Styl dla otwartego tła */
+        #toggle:checked + label + dialog {
+            display: block;
+        }
+
+        /* Styl dla dialogu */
+        dialog {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            background-color: #fff; /* Tło dialogu */
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        /* Pozostałe style dla labela i pozostałego contentu */
+        label {
+            background: skyblue;
+            color: white;
+            padding: .5em 1em;
+            border-radius: 4px;
+        }
+
+        /* Styl dla przycisku "Zamknij" w dialogu */
+        #closeDialog {
+            background-color: #ddd;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+
+        </style>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
         <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+
     </head>
     <body>
         <div id="colorlib-page">
@@ -66,10 +166,21 @@
                     <div class="container-fluid px-3 px-md-0">
                         <div class="row">
                             <div class="col-md-12 mb-4">
-                                <h1 class="h2">Website menu #09</h1>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque est assumenda illum ratione nesciunt ullam non accusantium voluptas soluta veniam, quam, praesentium suscipit eos amet nisi natus nostrum, iusto expedita?
-                                </p>
+                                <h1 class="h2">Hello, {{ user.username }}</h1>
+                                <br>
+                                <button class="button-31" role="button">Add Category + </button>
+                                <br><br>
+                                <button class="button-31" role="button">Add Habit + </button>
+                                <div class="background">
+                                    <input type="checkbox" id="toggle">
+                                    <label for="toggle">Otwórz dialog</label>
+
+                                    <dialog id="myDialog">
+                                        <h2>Tytuł dialogu</h2>
+                                        <p>Treść dialogu...</p>
+                                        <button id="closeDialog">Zamknij</button>
+                                    </dialog>
+                                </div>
                             </div>
                             <div class="col-md-6">
                                 <h2 class="h4">Heading Two</h2>
