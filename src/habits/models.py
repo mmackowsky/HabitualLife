@@ -3,14 +3,16 @@ from django.db import models
 
 
 class Category(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="categories")
     name = models.CharField(max_length=100)
 
 
 class Habit(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    description = models.CharField(max_length=250)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="habits")
+    name = models.CharField(max_length=250, help_text="name of the habit to perform")
+    category = models.ForeignKey(
+        Category, on_delete=models.CASCADE, related_name="habits"
+    )
     active = models.BooleanField(default=False)
     is_positive = models.BooleanField()
-    date = models.DateTimeField(auto_now_add=True)
+    created_date = models.DateTimeField(auto_now_add=True)
