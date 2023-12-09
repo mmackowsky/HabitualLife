@@ -1,18 +1,20 @@
 import logging
 
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.contrib import messages
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
-from .models import Habit, Category
-from .forms import HabitForm, CategoryForm
+
+from .forms import CategoryForm, HabitForm
+from .models import Category, Habit
 
 
 class CategoryAddView(LoginRequiredMixin, CreateView):
     model = Category
     fields = ["name"]
+    template_name = "habits/add_category.html"
 
     # Add category "folder" for habits.
     def form_valid(self, form):
@@ -64,7 +66,7 @@ class HabitAddView(LoginRequiredMixin, CreateView):
 class HabitDeleteView(DeleteView):
     model = Habit
     form_class = HabitForm
-    success_url = 'main/'
+    success_url = "main/"
 
     def get_queryset(self):
         return super().get_queryset().filter(user=self.request.user.profile)
