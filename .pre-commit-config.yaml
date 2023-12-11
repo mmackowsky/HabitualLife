@@ -27,6 +27,3 @@ repos:
       - id: djlint-reformat-handlebars
         files: "\\.html"
         types_or: ['html']
-      - id: djlint-handlebars
-        files: "\\.html"
-        types_or: ['html']
