@@ -133,14 +133,14 @@ USE_I18N = True
 
 USE_TZ = True
 
+# Media settings
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = "media/"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
-
 STATIC_URL = "static/"
-
 STATIC_ROOT = "/var/app/current/src/staticfiles/"
-
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
     "var/app/current/src/staticfiles/",
