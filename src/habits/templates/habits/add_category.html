@@ -1,0 +1,32 @@
+{% extends "main.html" %}
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>Add category</title>
+    <link rel="stylesheet" href="{% static 'login/css/style.css' %}">
+</head>
+{% block content %}
+    <body>
+        <form method="post">
+            {% csrf_token %}
+            <div class="align-items-center" style="position: relative; left: 50px;">
+                <h3 style="left: 100px;">Add Category</h3>
+                <div class="form-group">
+                    <input type="text"
+                           class="form-control"
+                           name="name"
+                           id="name"
+                           placeholder="Category name"
+                           style="background-color: gainsboro;
+                                  left: 10px"
+                           required>
+                </div>
+                <button type="submit"
+                        class="btn btn-primary"
+                        style="background-color: black;
+                               border-color: black;
+                               left: 10px">Add</button>
+            </div>
+        </form>
+    </body>
+{% endblock %}
