@@ -1,4 +1,5 @@
 from django import forms
+
 from .models import Category, Habit
 
 
@@ -7,7 +8,7 @@ class CategoryForm(forms.ModelForm):
 
     class Meta:
         model = Category
-        fields = ['name']
+        fields = ["name", "user"]
 
 
 class HabitForm(forms.ModelForm):
@@ -16,4 +17,4 @@ class HabitForm(forms.ModelForm):
 
     class Meta:
         model = Habit
-        fields = ['description', 'active']
+        fields = ["description", "active"]
