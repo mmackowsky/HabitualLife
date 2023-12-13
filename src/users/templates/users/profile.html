@@ -1,11 +1,8 @@
 {% extends 'main.html' %}
+{% load static %}
 <head>
     <style>
         @import url(https://fonts.googleapis.com/css?family=Open+Sans:300);
-
-        .body {
-        // custom fonts, etcetera can go here
-        }
 
         .jumbotron-flat {
           background-color: solid #4DB8FFF;
@@ -13,8 +10,8 @@
           border: 1px solid #4DB8FF;
           background: white;
           width: 100%;
-        text-align: center;
-        overflow: auto;
+          text-align: center;
+          overflow: auto;
         }
 
         .paymentAmt {
@@ -28,61 +25,109 @@
         .title {
          padding-top: 15px;
         }
+
     </style>
 </head>
 {% block content %}
     <body>
         <div class="container">
-            <h1>Edit Profile</h1>
-            <hr>
-            <div class="row">
-                <!-- left column -->
-                <div class="col-md-3">
-                    <div class="text-center">
-                        <img src="//placehold.it/100" class="avatar img-circle" alt="avatar">
-                        <h6>Upload a different photo...</h6>
-                        <input type="file" class="form-control">
+            <form method="post">
+                {% csrf_token %}
+                <h1>Edit Profile</h1>
+                <hr>
+                <div class="row">
+                    <!-- left column -->
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <img src="{{ user.profile.image.url }}"
+                                 style="width: 100px;
+                                        height: 100px;
+                                        border-radius: 50%"
+                                 class="avatar img-circle"
+                                 alt="avatar">
+                            <h6>Upload a different photo...</h6>
+                            {{ profile_form.image }}
+                            {#                        <input type="file" class="form-control" name="image" id="image">#}
+                        </div>
+                    </div>
+                    <!-- edit form column -->
+                    <div class="col-md-9 personal-info">
+                        <h3>Personal info</h3>
+                        <div class="form-group">
+                            <div class="col-lg-8">
+                                <div class="row">
+                                    <label class="col-lg-3 control-label"
+                                           style="background-color: gainsboro;
+                                                  color: black">First name:</label>
+                                    <div class="col-lg-9" style="top: 3px">
+                                        <input class="form-control"
+                                               type="text"
+                                               name="first_name"
+                                               id="first_name"
+                                               value="{{ user.first_name }}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-8">
+                                <div class="row">
+                                    <label class="col-lg-3 control-label"
+                                           style="background-color: gainsboro;
+                                                  color: black">Last name:</label>
+                                    <div class="col-lg-9" style="top: 3px">
+                                        <input class="form-control"
+                                               type="text"
+                                               name="last_name"
+                                               id="last_name"
+                                               value="{{ user.last_name }}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-8">
+                                <div class="row">
+                                    <label class="col-lg-3 control-label"
+                                           style="background-color: gainsboro;
+                                                  color: black">Username:</label>
+                                    <div class="col-lg-9" style="top: 3px">
+                                        <input class="form-control"
+                                               type="text"
+                                               name="username"
+                                               id="username"
+                                               value="{{ user.username }}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-8">
+                                <div class="row">
+                                    <label class="col-lg-3 control-label"
+                                           style="background-color: gainsboro;
+                                                  color: black">E-mail:</label>
+                                    <div class="col-lg-9" style="top: 3px">
+                                        <input class="form-control"
+                                               type="text"
+                                               name="email"
+                                               id="email"
+                                               value="{{ user.email }}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-8">
+                                <button type="submit"
+                                        class="btn btn-primary"
+                                        style="background-color: black;
+                                               border-color: black">Save changes</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <!-- edit form column -->
-                <div class="col-md-9 personal-info">
-                    <h3>Personal info</h3>
-                    <form class="form-horizontal" role="form">
-                        <div class="form-group">
-                            <label class="col-lg-3 control-label">First name:</label>
-                            <div class="col-lg-8">
-                                <input class="form-control" type="text" value="Jane">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-lg-3 control-label">Last name:</label>
-                            <div class="col-lg-8">
-                                <input class="form-control" type="text" value="Bishop">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-lg-3 control-label">Email:</label>
-                            <div class="col-lg-8">
-                                <input class="form-control" type="text" value="janesemail@gmail.com">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Username:</label>
-                            <div class="col-md-8">
-                                <input class="form-control" type="text" value="janeuser">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label"></label>
-                            <div class="col-md-8">
-                                <input type="button" class="btn btn-primary" value="Save Changes">
-                                <span></span>
-                                <input type="reset" class="btn btn-default" value="Cancel">
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+            </form>
         </div>
         <hr>
     </body>
