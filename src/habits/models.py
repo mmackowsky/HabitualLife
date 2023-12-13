@@ -11,7 +11,11 @@ class Category(models.Model):
     name = models.CharField(max_length=100)
 
     class Meta:
-        unique_together = ["user", "name"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "name"], name="unique_user_category"
+            )
+        ]
 
 
 class Habit(models.Model):
