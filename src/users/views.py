@@ -1,24 +1,32 @@
 import logging
+import os
+from tempfile import TemporaryDirectory
 from typing import Union
 
+import boto3
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout, get_user_model
+from django.contrib.auth import authenticate, get_user_model, login, logout
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.views import PasswordResetView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.sites.shortcuts import get_current_site
+from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.core.mail import EmailMessage
-from django.http import HttpResponse, HttpRequest
-from django.shortcuts import render, redirect
+from django.http import HttpRequest, HttpResponse
+from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse, reverse_lazy
-from django.utils.encoding import force_str, force_bytes
+from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.views import View
 from django.views.generic import FormView
 
-from .forms import SignupForm
+from core import settings
+
+from .forms import ProfileUpdateForm, SignupForm, UserUpdateForm
+from .models import Profile
 from .tokens import account_activation_token
 
 
@@ -30,6 +38,9 @@ class SignupView(FormView):
         user = form.save(commit=False)
         user.is_active = False
         user.save()
+
+        Profile.objects.create(user=user)
+
         to_email = form.cleaned_data.get("email")
         self.send_email(user, to_email)
         messages.info(
@@ -138,6 +149,37 @@ class LogoutView(View):
         logout(request)
         messages.info(request, "Successfully logout.")
         return redirect("login")
+
+
+class ProfileView(View, LoginRequiredMixin):
+    def get(self, request) -> HttpResponse:
+        user_form = UserUpdateForm(instance=request.user)
+        profile_form = ProfileUpdateForm(instance=request.user.profile)
+        return render(
+            request,
+            "users/profile.html",
+            {"user_form": user_form, "profile_form": profile_form},
+        )
+
+    def post(self, request) -> HttpResponse:
+        user_form = UserUpdateForm(request.POST, instance=request.user)
+        profile_form = ProfileUpdateForm(
+            request.POST, request.FILES, instance=request.user.profile
+        )
+
+        if user_form.is_valid() and profile_form.is_valid():
+            # Save data
+            user_form.save()
+            profile_form.save()
+
+            messages.success(request, "Successful update")
+            return redirect("profile")
+        logging.error("Form is not valid")
+        return render(
+            request,
+            "users/profile.html",
+            {"user_form": user_form, "profile_form": profile_form},
+        )
 
 
 class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
