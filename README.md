@@ -40,3 +40,8 @@ Run app
 
 Docker/Docker Compose: <br/>
 ```docker-compose build``` -> ```docker-compose up```
+
+## App appearance
+<img src="https://github.com/mmackowsky/HabitualLife/assets/123114901/355398b6-8429-47fe-a0a4-f2160280f0b9">
+<img src="https://github.com/mmackowsky/HabitualLife/assets/123114901/b62e2233-1b50-412b-99b1-f0a4775fc3d7">
+<img src="https://github.com/mmackowsky/HabitualLife/assets/123114901/98bf5464-a6cf-4b58-8643-8cf79a20cd96">
