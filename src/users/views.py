@@ -24,6 +24,7 @@ from django.views import View
 from django.views.generic import FormView
 
 from core import settings
+from habits.models import Category
 
 from .forms import ProfileUpdateForm, SignupForm, UserUpdateForm
 from .models import Profile
@@ -39,7 +40,8 @@ class SignupView(FormView):
         user.is_active = False
         user.save()
 
-        Profile.objects.create(user=user)
+        profile = Profile.objects.create(user=user)
+        self.add_default_categories(user=profile)
 
         to_email = form.cleaned_data.get("email")
         self.send_email(user, to_email)
@@ -52,6 +54,11 @@ class SignupView(FormView):
         self.error_messages(form)
         logging.error("Form is not valid.")
         return super().form_invalid(form)
+
+    @staticmethod
+    def add_default_categories(user):
+        for category in Category.DEFAULT_CATEGORIES:
+            Category.objects.create(user=user, name=category[1])
 
     def send_email(self, user, to_email):
         current_site = get_current_site(self.request)
@@ -168,6 +175,8 @@ class ProfileView(View, LoginRequiredMixin):
         )
 
         if user_form.is_valid() and profile_form.is_valid():
+            if "remove_image" in request.POST:
+                self.remove_profile_img()
             # Save data
             user_form.save()
             profile_form.save()
@@ -180,6 +189,13 @@ class ProfileView(View, LoginRequiredMixin):
             "users/profile.html",
             {"user_form": user_form, "profile_form": profile_form},
         )
+
+    def remove_profile_img(self):
+        profile = self.request.user.profile
+        if profile.image:
+            profile.image.delete()
+            profile.image = settings.DEFAULT_PROFILE_IMAGE
+            messages.success(self.request, "Image deleted.")
 
 
 class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
