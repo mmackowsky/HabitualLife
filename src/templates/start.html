@@ -12,46 +12,49 @@
         <link rel="stylesheet"
               href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="{% static 'start/css/style.css' %}">
+        <link rel="icon" href="{% static 'app_logo/HL.png' %}" type="image/x-icon">
+        <link rel="shortcut icon"
+              href="{% static 'app_logo/HL.png' %}"
+              type="image/x-icon">
     </head>
     <body>
-    {% block content %}
-        <section class="hero-wrap js-fullheight">
-            {% if messages %}
-            {% for message in messages %}
-            <div class="container-fluid p-3">
-              <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">×</span>
-                </button>
-                {{ message }}
-              </div>
-            </div>
-            {% endfor %}
-            {% endif %}
-            <div class="container px-0">
-                <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center"
-                     data-scrollax-parent="true">
-                    <div class="col-md-12 ftco-animate text-center">
-                        <div class="desc">
-                            <h1 style="color: black; font-family: Georgia, Times, serif;">Habitual|life</h1>
-                            <button class="button-40" role="button">
-                                <a style="color: white" href="{% url 'login' %}">Log In</a>
-                            </button>
-                            <button class="button-40" role="button">
-                                <a style="color: white" href="{% url 'signup' %}">Sign Up</a>
-                            </button>
+        {% block content %}
+            <section class="hero-wrap js-fullheight">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="container-fluid p-3">
+                            <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                                {{ message }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                <div class="container px-0">
+                    <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center"
+                         data-scrollax-parent="true">
+                        <div class="col-md-12 ftco-animate text-center">
+                            <div class="desc">
+                                <h1 style="color: black; font-family: Georgia, Times, serif;">Habitual|life</h1>
+                                <button class="button-40" role="button">
+                                    <a style="color: white" href="{% url 'login' %}">Log In</a>
+                                </button>
+                                <button class="button-40" role="button">
+                                    <a style="color: white" href="{% url 'signup' %}">Sign Up</a>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </div>
     </div>
-</div>
-<script src="{% static 'start/js/jquery.min.js' %}"></script>
-<script src="{% static 'start/js/popper.js' %}"></script>
-<script src="{% static 'start/js/bootstrap.min.js' %}"></script>
-<script src="{% static 'start/js/main.js' %}"></script>
-    {% endblock %}
+    <script src="{% static 'start/js/jquery.min.js' %}"></script>
+    <script src="{% static 'start/js/popper.js' %}"></script>
+    <script src="{% static 'start/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'start/js/main.js' %}"></script>
+{% endblock %}
 </body>
-
 </html>
