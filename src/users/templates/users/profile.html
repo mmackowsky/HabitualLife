@@ -31,7 +31,7 @@
 {% block content %}
     <body>
         <div class="container">
-            <form method="post">
+            <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <h1>Edit Profile</h1>
                 <hr>
@@ -47,6 +47,13 @@
                                  alt="avatar">
                             <h6>Upload a different photo...</h6>
                             {{ profile_form.image }}
+                            <br>
+                            <br>
+                            <button type="submit"
+                                    id="remove_image"
+                                    name="remove_image"
+                                    class="btn btn-primary"
+                                    style="background-color: red">Remove avatar</button>
                             {#                        <input type="file" class="form-control" name="image" id="image">#}
                         </div>
                     </div>
