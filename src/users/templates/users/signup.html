@@ -1,7 +1,6 @@
 {% extends 'start.html' %}
 {% block content %}
-{% load static %}
-
+    {% load static %}
     <head>
         <title>Sign Up</title>
         <meta charset="utf-8">
@@ -18,9 +17,9 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-6 text-center mb-5">
-                        <h2 class="heading-section" style="font-family: Georgia, Times, serif;">
-                            <a style="color: black" href="{% url 'start' %}">Habituallife</a>
-                        </h2>
+                        <h1 class="heading-section" style="font-family: Georgia, Times, serif;">
+                            <a style="color: black" href="{% url 'main' %}">H|L</a>
+                        </h1>
                     </div>
                 </div>
                 <div class="row justify-content-center">
@@ -34,32 +33,56 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group mb-4">
-                                            <input id="username" name="username" type="text" class="form-control" placeholder="Username">
+                                            <input id="username"
+                                                   name="username"
+                                                   type="text"
+                                                   class="form-control"
+                                                   placeholder="Username">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group mb-4">
-                                            <input id="first_name" name="first_name" type="text" class="form-control" placeholder="First name">
+                                            <input id="first_name"
+                                                   name="first_name"
+                                                   type="text"
+                                                   class="form-control"
+                                                   placeholder="First name">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group mb-4">
-                                            <input id="last_name" name="last_name" type="text" class="form-control" placeholder="Last name">
+                                            <input id="last_name"
+                                                   name="last_name"
+                                                   type="text"
+                                                   class="form-control"
+                                                   placeholder="Last name">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group mb-4">
-                                            <input id="email" name="email" type="text" class="form-control" placeholder="E-mail">
+                                            <input id="email"
+                                                   name="email"
+                                                   type="text"
+                                                   class="form-control"
+                                                   placeholder="E-mail">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group mb-4">
-                                            <input id="password1" name="password1" type="password" class="form-control" placeholder="Password">
+                                            <input id="password1"
+                                                   name="password1"
+                                                   type="password"
+                                                   class="form-control"
+                                                   placeholder="Password">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group mb-4">
-                                            <input id="password2" name="password2" type="password" class="form-control" placeholder="Confirm Password">
+                                            <input id="password2"
+                                                   name="password2"
+                                                   type="password"
+                                                   class="form-control"
+                                                   placeholder="Confirm Password">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -70,15 +93,15 @@
                                 </div>
                             </form>
                             <div class="w-100 social-wrap">
-                                <p>
-                                    <span>or Signup with this services below</span>
-                                </p>
-                                <p class="social-media d-flex justify-content-center">
-                                    <a href="#"
-                                       class="social-icon facebook d-flex align-items-center justify-content-center"><span class="fa fa-facebook"></span> Facebook</a>
-                                    <a href="#"
-                                       class="social-icon twitter d-flex align-items-center justify-content-center"><span class="fa fa-twitter"></span> Twitter</a>
-                                </p>
+                                {#                                <p>#}
+                                {#                                    <span>or Signup with this services below</span>#}
+                                {#                                </p>#}
+                                {#                                <p class="social-media d-flex justify-content-center">#}
+                                {#                                    <a href="#"#}
+                                {#                                       class="social-icon facebook d-flex align-items-center justify-content-center"><span class="fa fa-facebook"></span> Facebook</a>#}
+                                {#                                    <a href="#"#}
+                                {#                                       class="social-icon twitter d-flex align-items-center justify-content-center"><span class="fa fa-twitter"></span> Twitter</a>#}
+                                {#                                </p>#}
                                 <p class="mt-4">
                                     I'm already a member! <a style="color: black"href="{% url 'login' %}">Log In</a>
                                 </p>
@@ -93,5 +116,4 @@
         <script src="{% static 'signup/js/bootstrap.min.js' %}"></script>
         <script src="{% static 'signup/js/main.js' %}"></script>
     </body>
-
 {% endblock %}
