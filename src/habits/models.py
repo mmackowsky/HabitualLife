@@ -1,21 +1,25 @@
-from django.contrib.auth.models import User
 from django.db import models
 
 from users.models import Profile
 
 
 class Category(models.Model):
+    DEFAULT_CATEGORIES = [
+        ("HEALTH", "Health"),
+        ("FINANCE", "Finance"),
+        ("WORK", "Work"),
+    ]
+
     user = models.ForeignKey(
         Profile, on_delete=models.CASCADE, related_name="categories"
     )
     name = models.CharField(max_length=100)
 
+    def __str__(self):
+        return self.name
+
     class Meta:
-        constraints = [
-            models.UniqueConstraint(
-                fields=["user", "name"], name="unique_user_category"
-            )
-        ]
+        unique_together = ("name", "user")
 
 
 class Habit(models.Model):
@@ -25,7 +29,7 @@ class Habit(models.Model):
         ("MONTHLY", "Monthly"),
     ]
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="habits")
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="habits")
     name = models.CharField(
         max_length=250, help_text="name of the habit to perform", default=None
     )
