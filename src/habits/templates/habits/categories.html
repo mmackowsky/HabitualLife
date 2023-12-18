@@ -1,0 +1,104 @@
+{% extends "main.html" %}
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>Add category</title>
+    <link rel="stylesheet" href="{% static 'login/css/style.css' %}">
+</head>
+{% block content %}
+    <body>
+        <form method="post" action="{% url 'add-category' %}">
+            {% csrf_token %}
+            <div class="align-items-center" style="position: relative; left: 50px;">
+                <h2 style="left: 100px;">Add Category</h2>
+                <hr>
+                <div class="form-group">
+                    <input type="text"
+                           class="form-control"
+                           name="name"
+                           id="name"
+                           placeholder="Category name"
+                           style="background-color: gainsboro;
+                                  left: 10px"
+                           required>
+                </div>
+                <button type="submit"
+                        class="btn btn-primary"
+                        style="background-color: black;
+                               border-color: black;
+                               left: 10px">Add</button>
+            </div>
+        </form>
+        <div class="align-items-center" style="position: relative; left: 550px;">
+            <h2>Your categories:</h2>
+            <hr>
+            {% for category in categories %}
+                <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                    <form method="get">
+                        <ul style="list-style-type: disc; margin: 0;">
+                            <li style="color: black; font-size: 20px;">{{ category.name }} |</li>
+                        </ul>
+                    </form>
+                    <form method="post"
+                          action="{% url 'delete-category' category.id %}"
+                          style="margin-left: 10px">
+                        {% csrf_token %}
+                        <input type="hidden" name="category_id" value="{{ category.id }}">
+                        <button type="submit"
+                                style="border-radius: 10px;
+                                       border: None;
+                                       background-color: red;
+                                       color: white">Delete category</button>
+                    </form>
+                    <button type="button"
+                            data-toggle="modal"
+                            data-target="#editCategoryModal{{ category.id }}"
+                            style="border-radius: 10px;
+                                   border: None;
+                                   background-color: black;
+                                   margin-left: 10px;
+                                   color: white">Edit category</button>
+                    <!-- EDIT CATEGORY MODAL -->
+                    <div class="modal fade"
+                         id="editCategoryModal{{ category.id }}"
+                         tabindex="-1"
+                         role="dialog"
+                         aria-labelledby="editCategoryModal"
+                         aria-hidden="true">
+                        <div class="modal-dialog"
+                             role="document"
+                             style="position: fixed;
+                                    width: 80%;
+                                    max-width: 500px;
+                                    top: 50%;
+                                    left: 50%;
+                                    transform: translate(-50%, -50%)">
+                            <div class="modal-content">
+                                <!-- MODAL CONTENT -->
+                                <div class="modal-body">
+                                    <!-- FORM -->
+                                    <form method="post" action="{% url 'edit-category' category.id %}">
+                                        {% csrf_token %}
+                                        <div class="align-items-center">
+                                            <h2>Edit category</h2>
+                                            <hr>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="name" id="name" placeholder={{ category.name }} required>
+                                            </div>
+                                            <input type="hidden" name="category_id" value="{{ category.id }}">
+                                            <button type="submit"
+                                                    class="btn btn-primary"
+                                                    style="background-color: black;
+                                                           border-color: black;
+                                                           left: 10px">Edit category</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </body>
+{% endblock %}
