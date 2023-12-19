@@ -7,8 +7,14 @@ from django.db import IntegrityError
 from django.db.models import QuerySet
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView
-from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from django.views.generic import ListView, TemplateView
+from django.views.generic.edit import (
+    CreateView,
+    DeleteView,
+    FormMixin,
+    FormView,
+    UpdateView,
+)
 
 from .forms import CategoryForm, HabitForm
 from .models import Category, Habit
@@ -44,7 +50,7 @@ class CategoryAddView(LoginRequiredMixin, CreateView):
 
 class CategoryDeleteView(LoginRequiredMixin, DeleteView):
     model = Category
-    template_name = "habits/delete_category.html"
+    template_name = "habits/categories.html"
     success_url = reverse_lazy("categories")
 
     # Delete added category within all habits.
@@ -59,33 +65,42 @@ class CategoryDeleteView(LoginRequiredMixin, DeleteView):
 class CategoryUpdateView(LoginRequiredMixin, UpdateView):
     model = Category
     success_url = reverse_lazy("categories")
-    form_class = CategoryForm
+    fields = ["name"]
+    template_name = "habits/categories.html"
 
     # Provide change name of category functionality
     def form_valid(self, form: CategoryForm) -> HttpResponseRedirect:
-        form.instance.user = self.request.user.profile
+        form.save()
+        messages.success(self.request, "Category edited.")
         return super().form_valid(form)
 
 
-class HabitListView(LoginRequiredMixin, ListView):
+class HabitListView(LoginRequiredMixin, ListView, FormMixin):
     model = Habit
+    template_name = "main.html"
+    form_class = HabitForm
 
     # Display habits for exact user.
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user.profile
+        return kwargs
 
 
 class HabitAddView(LoginRequiredMixin, CreateView):
     model = Habit
+    # fields = ["name", "category", "frequency", "is_positive"]
+    template_name = "main.html"
+    success_url = reverse_lazy("habits")
     form_class = HabitForm
-    template_name = "habits/add_habit.html"
 
-    success_url = reverse_lazy("add-habit")
-
-    def get_form_kwargs(self):
-        kwargs = super(HabitAddView, self).get_form_kwargs()
-        kwargs["user"] = self.request.user.profile
-        return kwargs
+    # def get_form_kwargs(self):
+    #     kwargs = super().get_form_kwargs()
+    #     kwargs["user"] = self.request.user.profile
+    #     return kwargs
 
     def form_valid(self, form: HabitForm) -> HttpResponseRedirect:
+        form.instance.user = self.request.user.profile
         messages.success(self.request, "Habit added.")
         return super().form_valid(form)
 
