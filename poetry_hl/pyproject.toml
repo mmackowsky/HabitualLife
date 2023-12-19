@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "poetry-hl"
+version = "0.1.0"
+description = ""
+authors = ["mmackowsky <maciostah@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "^5.0"
+celery = "^5.3.6"
+docker = "^7.0.0"
+djangorestframework = "^3.14.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
