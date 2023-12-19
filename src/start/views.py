@@ -1,8 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.views.generic import FormView, TemplateView
+
+from habits.forms import HabitForm
 
 
 def main_view(request):
     if request.user.is_authenticated:
-        return render(request, "main.html")
+        return redirect("habits")
     else:
         return render(request, "start.html")
