@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",
     "django_celery_results",
+    "django_extensions",
+    "colorfield",
 ]
 
 INSTALLED_EXTENSIONS = [
