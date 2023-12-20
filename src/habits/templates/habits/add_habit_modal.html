@@ -1,0 +1,58 @@
+<div class="modal fade"
+     id="addHabitModal"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="addHabitModal"
+     aria-hidden="true">
+    <div class="modal-dialog"
+         role="document"
+         style="position: fixed;
+                width: 80%;
+                max-width: 800px;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%)">
+        <div class="modal-content">
+            <!-- MODAL CONTENT -->
+            <div class="modal-body">
+                <!-- FORM -->
+                <form method="post"
+                      action="{% url 'add-habit' %}"
+                      style="position: relative;
+                             left: 60px">
+                    {% csrf_token %}
+                    <h2>Add habit</h2>
+                    <hr style="position: relative; right: 40px; width: 90%;">
+                    <div>
+                        <div>
+                            <label style="background-color: black; width: 120px; margin-right: 30px;">Name:</label>
+                            {{ form.name }}
+                        </div>
+                        <div>
+                            <label for="category"
+                                   style="background-color: black;
+                                          width: 120px;
+                                          margin-right: 30px">Category:</label>
+                            {{ form.category }}
+                        </div>
+                        <div>
+                            <label style="background-color: black; width: 120px; margin-right: 30px;">Frequency:</label>
+                            {{ form.frequency }}
+                        </div>
+                        <div>
+                            <label style="background-color: black; width: 120px; margin-right: 30px;">Is positive:</label>
+                            {{ form.is_positive }}
+                        </div>
+                        <hr style="position: relative; right: 40px; width: 90%;">
+                        <div>
+                            <button type="submit"
+                                    style="position: relative;
+                                           border-radius: 10px;
+                                           left: 10px">Add habit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
