@@ -4,9 +4,27 @@
     <meta charset="UTF-8">
     <title>Add category</title>
     <link rel="stylesheet" href="{% static 'login/css/style.css' %}">
+    <script src="{% static 'categories/js/jscolor.js' %}"></script>
 </head>
 {% block content %}
     <body>
+        <script src="{% static 'categories/js/jscolor.js' %}"></script>
+        <script>
+        // Here we can adjust defaults for all color pickers on page:
+        jscolor.presets.default = {
+            palette: [
+                '#000000', '#7d7d7d', '#870014', '#ec1c23', '#ff7e26', '#fef100', '#22b14b', '#00a1e7', '#3f47cc', '#a349a4',
+                '#ffffff', '#c3c3c3', '#b87957', '#feaec9', '#ffc80d', '#eee3af', '#b5e61d', '#99d9ea', '#7092be', '#c8bfe7',
+            ],
+            //paletteCols: 12,
+            //hideOnPaletteClick: true,
+            //width: 271,
+            //height: 151,
+            //position: 'right',
+            //previewPosition: 'right',
+            //backgroundColor: 'rgba(51,51,51,1)', controlBorderColor: 'rgba(153,153,153,1)', buttonColor: 'rgba(240,240,240,1)',
+        }
+        </script>
         <form method="post" action="{% url 'add-category' %}">
             {% csrf_token %}
             <div class="align-items-center" style="position: relative; left: 50px;">
@@ -21,7 +39,11 @@
                            style="background-color: whitesmoke;
                                   left: 10px"
                            required>
+                    <br>
+                    <label style="background-color: black; width: 80px; margin-right: 30px;">Color:</label>
+                    <input id="color" name="color" data-jscolor="{}">
                 </div>
+                <hr>
                 <button type="submit"
                         class="btn btn-primary"
                         style="background-color: black;
