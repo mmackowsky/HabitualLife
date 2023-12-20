@@ -18,20 +18,20 @@
               type="image/x-icon">
     </head>
     <body>
-        {% block content %}
-            <section class="hero-wrap js-fullheight">
-                {% if messages %}
-                    {% for message in messages %}
-                        <div class="container-fluid p-3">
-                            <div class="alert {{ message.tags }} alert-dismissible" role="alert">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">×</span>
-                                </button>
-                                {{ message }}
-                            </div>
+        <section class="hero-wrap js-fullheight">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="container-fluid p-3">
+                        <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                            {{ message }}
                         </div>
-                    {% endfor %}
-                {% endif %}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% block content %}
                 <div class="container px-0">
                     <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center"
                          data-scrollax-parent="true">
