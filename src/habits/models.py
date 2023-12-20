@@ -1,3 +1,4 @@
+from colorfield.fields import ColorField
 from django.db import models
 
 from users.models import Profile
@@ -14,6 +15,7 @@ class Category(models.Model):
         Profile, on_delete=models.CASCADE, related_name="categories"
     )
     name = models.CharField(max_length=100)
+    color = ColorField(default="#d3d3d3")
 
     def __str__(self):
         return self.name
