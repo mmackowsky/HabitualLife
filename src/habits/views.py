@@ -32,7 +32,7 @@ class CategoryListView(LoginRequiredMixin, ListView):
 
 class CategoryAddView(LoginRequiredMixin, CreateView):
     model = Category
-    fields = ["name"]
+    fields = ["name", "color"]
     template_name = "habits/categories.html"
     success_url = reverse_lazy("categories")
 
@@ -86,10 +86,14 @@ class HabitListView(LoginRequiredMixin, ListView, FormMixin):
         kwargs["user"] = self.request.user.profile
         return kwargs
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data()
+        context["habits"] = Habit.objects.filter(user=self.request.user.profile)
+        return context
+
 
 class HabitAddView(LoginRequiredMixin, CreateView):
     model = Habit
-    # fields = ["name", "category", "frequency", "is_positive"]
     template_name = "main.html"
     success_url = reverse_lazy("habits")
     form_class = HabitForm
