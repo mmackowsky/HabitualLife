@@ -1,3 +1,4 @@
+from colorfield.fields import ColorField
 from django import forms
 from django.forms import CheckboxInput, Select, TextInput
 
@@ -6,10 +7,11 @@ from .models import Category, Habit
 
 class CategoryForm(forms.ModelForm):
     name = forms.CharField(max_length=100)
+    color = ColorField(default="#FF0000")
 
     class Meta:
         model = Category
-        fields = ["name", "user"]
+        fields = ["name", "color", "user"]
 
 
 class HabitForm(forms.ModelForm):
