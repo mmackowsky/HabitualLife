@@ -30,6 +30,11 @@ class Habit(models.Model):
         ("WEEKLY", "Weekly"),
         ("MONTHLY", "Monthly"),
     ]
+    STATUS_CHOICES = [
+        ("SUCCESS", "Success"),
+        ("FAILED", "Failed"),
+        ("SKIPPED", "Skipped"),
+    ]
 
     user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="habits")
     name = models.CharField(
@@ -38,7 +43,35 @@ class Habit(models.Model):
     category = models.ForeignKey(
         Category, on_delete=models.CASCADE, related_name="habits"
     )
-    active = models.BooleanField(default=False)
+    active = models.BooleanField(default=True)
     frequency = models.CharField(max_length=10, choices=FREQUENCY_CHOICES, default=None)
     is_positive = models.BooleanField()
-    created_date = models.DateTimeField(auto_now_add=True)
+    execution_date = models.DateField(null=True, blank=True)
+    status = models.CharField(
+        max_length=7, choices=STATUS_CHOICES, default=None, blank=True, null=True
+    )
+    success_count = models.IntegerField(default=0)
+    failed_count = models.IntegerField(default=0)
+    skipped_count = models.IntegerField(default=0)
+
+    def increase_success(self):
+        self.success_count += 1
+        self.save()
+
+    def increase_failed(self):
+        self.failed_count += 1
+        self.save()
+
+    def increase_skipped(self):
+        self.skipped_count += 1
+        self.save()
+
+    def reset_counts(self):
+        self.success_count = 0
+        self.failed_count = 0
+        self.skipped_count = 0
+        self.save()
+
+    def update_execution_date(self, current_date):
+        self.execution_date = current_date
+        self.save()
