@@ -17,7 +17,16 @@ class CategoryForm(forms.ModelForm):
 class HabitForm(forms.ModelForm):
     class Meta:
         model = Habit
-        fields = ["name", "category", "frequency", "is_positive"]
+        fields = [
+            "name",
+            "category",
+            "frequency",
+            "is_positive",
+            "status",
+            "success_count",
+            "failed_count",
+            "skipped_count",
+        ]
         widgets = {
             "name": TextInput(
                 attrs={"style": "border-radius: 10px;", "placeholder": "Name of habit"}
