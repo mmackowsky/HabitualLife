@@ -7,6 +7,7 @@ from .views import (
     CategoryUpdateView,
     HabitAddView,
     HabitListView,
+    HabitUpdateView,
 )
 
 urlpatterns = [
@@ -22,4 +23,5 @@ urlpatterns = [
     ),
     path("habits/", HabitListView.as_view(), name="habits"),
     path("habits/add/", HabitAddView.as_view(), name="add-habit"),
+    path("habits/edit/<int:pk>", HabitUpdateView.as_view(), name="update-habit"),
 ]
