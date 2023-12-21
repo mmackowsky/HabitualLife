@@ -6,6 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import IntegrityError
 from django.db.models import QuerySet
 from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, TemplateView
 from django.views.generic.edit import (
@@ -117,7 +118,7 @@ class HabitAddView(LoginRequiredMixin, CreateView):
 class HabitDeleteView(DeleteView):
     model = Habit
     form_class = HabitForm
-    success_url = "main/"
+    success_url = reverse_lazy("habits")
 
     def get_queryset(self):
         return super().get_queryset().filter(user=self.request.user.profile)
@@ -134,6 +135,14 @@ class HabitDeleteView(DeleteView):
 
 class HabitUpdateView(LoginRequiredMixin, UpdateView):
     model = Habit
-    form_class = HabitForm
+    fields = ["status"]
+    template_name = "habits/habits_list.html"
+    success_url = reverse_lazy("habits")
 
     # Provide update option for object of Habit model.
+    def form_valid(self, form):
+        status = form.cleaned_data.get("status")
+        # Increase value due to status value.
+        form.save()
+        messages.success(self.request, "Habit updated.")
+        return super().form_valid(form)
