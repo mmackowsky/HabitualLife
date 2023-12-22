@@ -141,8 +141,24 @@ class HabitUpdateView(LoginRequiredMixin, UpdateView):
 
     # Provide update option for object of Habit model.
     def form_valid(self, form):
-        status = form.cleaned_data.get("status")
-        # Increase value due to status value.
-        form.save()
+        habit = form.save(commit=False)
+        new_status = form.cleaned_data.get("status")
+
+        self.increase_status_value(habit=habit, status=new_status)
+
+        habit.status = new_status
+        habit.save()
         messages.success(self.request, "Habit updated.")
         return super().form_valid(form)
+
+    @staticmethod
+    def increase_status_value(habit: Habit, status: str) -> None:
+        status_to_field = {
+            "SUCCESS": "success_count",
+            "FAILED": "failed_count",
+            "SKIPPED": "skipped_count",
+        }
+        field_name = status_to_field.get(status)
+
+        if field_name:
+            setattr(habit, field_name, getattr(habit, field_name) + 1)
