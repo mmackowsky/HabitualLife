@@ -13,6 +13,10 @@ docker = "^7.0.0"
 djangorestframework = "^3.14.0"
 
 
+[tool.poetry.dev-dependencies]
+pre-comit = "3.5.0"
+
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
