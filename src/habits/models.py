@@ -46,32 +46,12 @@ class Habit(models.Model):
     active = models.BooleanField(default=True)
     frequency = models.CharField(max_length=10, choices=FREQUENCY_CHOICES, default=None)
     is_positive = models.BooleanField()
-    execution_date = models.DateField(null=True, blank=True)
+    execution_date = models.DateField(
+        null=True, blank=True
+    )  # 1 minute -> execution_date <= datetime.now().days +timedelta(days=7)
     status = models.CharField(
         max_length=7, choices=STATUS_CHOICES, default=None, blank=True, null=True
     )
     success_count = models.IntegerField(default=0)
     failed_count = models.IntegerField(default=0)
     skipped_count = models.IntegerField(default=0)
-
-    def increase_success(self):
-        self.success_count += 1
-        self.save()
-
-    def increase_failed(self):
-        self.failed_count += 1
-        self.save()
-
-    def increase_skipped(self):
-        self.skipped_count += 1
-        self.save()
-
-    def reset_counts(self):
-        self.success_count = 0
-        self.failed_count = 0
-        self.skipped_count = 0
-        self.save()
-
-    def update_execution_date(self, current_date):
-        self.execution_date = current_date
-        self.save()
