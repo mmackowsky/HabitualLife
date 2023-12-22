@@ -180,7 +180,7 @@
                     <i class="fa fa-tasks"></i>&nbsp;Your Habits
                 </div>
             </div>
-            <div class="scroll-area-sm">
+            <div class="scroll-area-sm" style="position: relative; height: 500px;">
                 <perfect-scrollbar class="ps-show-limits">
                 <div style="position: static;" class="ps ps--active-y">
                     <div class="ps-content">
@@ -197,22 +197,46 @@
                                                     <input class="custom-control-input"
                                                            id="exampleCustomCheckbox12"
                                                            type="checkbox">
-                                                    <label class="custom-control-label" for="exampleCustomCheckbox12">&nbsp;</label>
+                                                    <label class="custom-control-label"
+                                                           for="exampleCustomCheckbox12"
+                                                           style="visibility: hidden">&nbsp;</label>
                                                 </div>
                                             </div>
                                             <div class="widget-content-left">
-                                                <div class="widget-heading">{{ habit.name }}</div>
-                                                <div class="widget-subheading">
+                                                <div class="widget-heading" style="position: relative; right: 20px;">{{ habit.name }}</div>
+                                                <div class="widget-subheading" style="position: relative; right: 20px;">
                                                     <i>{{ habit.category }}</i>
                                                 </div>
                                             </div>
-                                            <div class="widget-content-right">
-                                                <button class="border-0 btn-transition btn btn-outline-success">
-                                                    <i class="fa fa-check"></i>
-                                                </button>
-                                                <button class="border-0 btn-transition btn btn-outline-danger">
-                                                    <i class="fa fa-trash"></i>
-                                                </button>
+                                            <div class="widget-content-right" style="position: relative">
+                                                <form method="post" action="{% url "update-habit" habit.id %}">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="category_id" value="{{ habit.id }}">
+                                                    <button type="submit"
+                                                            id="status"
+                                                            name="status"
+                                                            value="SUCCESS"
+                                                            class="border-0 btn-transition btn btn-outline-success">
+                                                        <i class="fa fa-check"></i>
+                                                    </button>
+                                                    <div class="dropdown">
+                                                        <button class="border-0 btn-transition btn"
+                                                                type="button"
+                                                                id="dropdownMenuButton"
+                                                                data-toggle="dropdown"
+                                                                aria-haspopup="true"
+                                                                aria-expanded="false">
+                                                            <i class="fa fa-bars"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu"
+                                                             aria-labelledby="dropdownMenuButton"
+                                                             style="background-color: rgba(220, 220, 220, 0.9)">
+                                                            <!-- Tu dodaj zawartość menu -->
+                                                            <a class="dropdown-item" href="#">Failed&nbsp <i class="fa fa-times"></i></a>
+                                                            <a class="dropdown-item" href="#">Skip&nbsp <i class="fa fa-arrow-down"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -223,13 +247,13 @@
                 </div>
                 </perfect-scrollbar>
             </div>
-            <div class="d-block text-right card-footer"
-                 style="border-bottom-right-radius: 20px;
-                        border-bottom-left-radius: 20px;
-                        background-color: rgba(220, 220, 220, 0.6)">
-                <button class="mr-2 btn btn-link btn-sm">Cancel</button>
-                <button class="btn btn-primary">Add Task</button>
-            </div>
+            {#            <div class="d-block text-right card-footer"#}
+            {#                 style="border-bottom-right-radius: 20px;#}
+            {#                        border-bottom-left-radius: 20px;#}
+            {#                        background-color: rgba(220, 220, 220, 0.6)">#}
+            {#                <button class="mr-2 btn btn-link btn-sm">Cancel</button>#}
+            {#                <button class="btn btn-primary">Add Task</button>#}
+            {#            </div>#}
         </div>
     </div>
 </div>
