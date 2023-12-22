@@ -23,9 +23,6 @@ class HabitForm(forms.ModelForm):
             "frequency",
             "is_positive",
             "status",
-            "success_count",
-            "failed_count",
-            "skipped_count",
         ]
         widgets = {
             "name": TextInput(
