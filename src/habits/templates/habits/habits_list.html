@@ -232,8 +232,21 @@
                                                              aria-labelledby="dropdownMenuButton"
                                                              style="background-color: rgba(220, 220, 220, 0.9)">
                                                             <!-- Tu dodaj zawartość menu -->
-                                                            <a class="dropdown-item" href="#">Failed&nbsp <i class="fa fa-times"></i></a>
-                                                            <a class="dropdown-item" href="#">Skip&nbsp <i class="fa fa-arrow-down"></i></a>
+                                                            <button type="submit"
+                                                                    id="status"
+                                                                    name="status"
+                                                                    value="FAILED"
+                                                                    class="dropdown-item">
+                                                                Failed&nbsp <i class="fa fa-times"></i>
+                                                            </button>
+                                                            <button type="submit"
+                                                                    id="status"
+                                                                    name="status"
+                                                                    value="SKIPPED"
+                                                                    class="dropdown-item"
+                                                                    href="#">
+                                                                Skip&nbsp <i class="fa fa-arrow-down"></i>
+                                                            </button>
                                                         </div>
                                                     </div>
                                                 </form>
