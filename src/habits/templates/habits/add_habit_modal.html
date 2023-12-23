@@ -26,26 +26,44 @@
                     <div>
                         <div>
                             <label style="background-color: black; width: 120px; margin-right: 30px;">Name:</label>
-                            {{ form.name }}
+                            <input id="name"
+                                   name="name"
+                                   style="border-radius: 10px;
+                                          width: 200px"
+                                   placeholder="Name of habit">
                         </div>
                         <div>
                             <label for="category"
                                    style="background-color: black;
                                           width: 120px;
                                           margin-right: 30px">Category:</label>
-                            <select name="category" id="category">
+                            <select name="category"
+                                    id="category"
+                                    style="border-radius: 10px;
+                                           width: 200px">
                                 {% for category in request.user.profile.categories.all %}
                                     <option value="{{ category.id }}">{{ category.name }}</option>
                                 {% endfor %}
                             </select>
                         </div>
                         <div>
-                            <label style="background-color: black; width: 120px; margin-right: 30px;">Frequency:</label>
-                            {{ form.frequency }}
+                            <label for="frequency"
+                                   style="background-color: black;
+                                          width: 120px;
+                                          margin-right: 30px">Frequency:</label>
+                            <select name="frequency"
+                                    id="frequency"
+                                    style="border-radius: 10px;
+                                           width: 200px">
+                                {% for frequency in frequencies %}<option value="{{ frequency.0 }}">{{ frequency.1 }}</option>{% endfor %}
+                            </select>
                         </div>
                         <div>
                             <label style="background-color: black; width: 120px; margin-right: 30px;">Is positive:</label>
-                            {{ form.is_positive }}
+                            <input type="checkbox"
+                                   id="is_positive"
+                                   name="is_positive"
+                                   style="border-radius: 20px">
                         </div>
                         <hr style="position: relative; right: 40px; width: 90%;">
                         <div>
