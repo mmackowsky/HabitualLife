@@ -101,11 +101,6 @@ class HabitListView(LoginRequiredMixin, ListView, AddHabitMixin):
     form_class = HabitForm
 
     # Display habits for exact user.
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs["user"] = self.request.user.profile
-        return kwargs
-
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data()
         context["habits"] = Habit.objects.filter(user=self.request.user.profile)
@@ -117,11 +112,6 @@ class HabitAddView(LoginRequiredMixin, CreateView):
     template_name = "main.html"
     success_url = reverse_lazy("habits")
     form_class = HabitForm
-
-    # def get_form_kwargs(self):
-    #     kwargs = super().get_form_kwargs()
-    #     kwargs["user"] = self.request.user.profile
-    #     return kwargs
 
     def form_valid(self, form: HabitForm) -> HttpResponseRedirect:
         form.instance.user = self.request.user.profile
