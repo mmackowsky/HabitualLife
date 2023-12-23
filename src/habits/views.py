@@ -21,14 +21,33 @@ from .forms import CategoryForm, HabitForm
 from .models import Category, Habit
 
 
-class CategoryListView(LoginRequiredMixin, ListView):
+class AddHabitMixin(FormMixin):
+    model = Habit
+    form_class = HabitForm
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user.profile
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context["frequencies"] = Habit.FREQUENCY_CHOICES
+        return context
+
+
+class CategoryListView(LoginRequiredMixin, ListView, AddHabitMixin):
     model = Category
     template_name = "habits/categories.html"
-    context_object_name = "categories"
 
     def get_queryset(self) -> QuerySet[Category]:
         queryset = Category.objects.filter(user=self.request.user.profile)
         return queryset
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data()
+        context["categories"] = self.get_queryset()
+        return context
 
 
 class CategoryAddView(LoginRequiredMixin, CreateView):
@@ -76,7 +95,7 @@ class CategoryUpdateView(LoginRequiredMixin, UpdateView):
         return super().form_valid(form)
 
 
-class HabitListView(LoginRequiredMixin, ListView, FormMixin):
+class HabitListView(LoginRequiredMixin, ListView, AddHabitMixin):
     model = Habit
     template_name = "main.html"
     form_class = HabitForm
