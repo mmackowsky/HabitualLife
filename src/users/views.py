@@ -25,6 +25,7 @@ from django.views.generic import FormView
 
 from core import settings
 from habits.models import Category
+from habits.views import AddHabitMixin
 
 from .forms import ProfileUpdateForm, SignupForm, UserUpdateForm
 from .models import Profile
@@ -158,7 +159,7 @@ class LogoutView(View):
         return redirect("login")
 
 
-class ProfileView(View, LoginRequiredMixin):
+class ProfileView(View, LoginRequiredMixin, AddHabitMixin):
     def get(self, request) -> HttpResponse:
         user_form = UserUpdateForm(instance=request.user)
         profile_form = ProfileUpdateForm(instance=request.user.profile)
