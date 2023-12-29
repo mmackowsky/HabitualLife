@@ -24,26 +24,6 @@ class HabitForm(forms.ModelForm):
             "is_positive",
             "status",
         ]
-        widgets = {
-            "name": TextInput(
-                attrs={"style": "border-radius: 10px;", "placeholder": "Name of habit"}
-            ),
-            "category": Select(
-                attrs={
-                    "style": "border-radius: 10px; width: 200px;",
-                }
-            ),
-            "frequency": Select(
-                attrs={
-                    "style": "border-radius: 10px; width: 200px;",
-                }
-            ),
-            "is_positive": CheckboxInput(
-                attrs={
-                    "style": "border-radius: 10px;",
-                }
-            ),
-        }
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop("user", None)
