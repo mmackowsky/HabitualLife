@@ -1,6 +1,5 @@
 from colorfield.fields import ColorField
 from django import forms
-from django.forms import CheckboxInput, Select, TextInput
 
 from .models import Category, Habit
 
