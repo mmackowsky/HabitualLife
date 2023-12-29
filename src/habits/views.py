@@ -156,6 +156,7 @@ class HabitUpdateView(LoginRequiredMixin, UpdateView):
         self.increase_status_value(habit=habit, status=new_status)
 
         habit.status = new_status
+        habit.active = False
         habit.save()
         messages.success(self.request, "Habit updated.")
         return super().form_valid(form)
