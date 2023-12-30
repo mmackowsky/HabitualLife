@@ -1,4 +1,7 @@
+import datetime
+
 from colorfield.fields import ColorField
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 from users.models import Profile
@@ -27,8 +30,7 @@ class Category(models.Model):
 class Habit(models.Model):
     FREQUENCY_CHOICES = [
         ("DAILY", "Daily"),
-        ("WEEKLY", "Weekly"),
-        ("MONTHLY", "Monthly"),
+        ("INTERVAL", "Interval"),
     ]
     STATUS_CHOICES = [
         ("SUCCESS", "Success"),
@@ -45,10 +47,14 @@ class Habit(models.Model):
     )
     active = models.BooleanField(default=True)
     frequency = models.CharField(max_length=10, choices=FREQUENCY_CHOICES, default=None)
+    interval_value = models.IntegerField(
+        default=None,
+        blank=True,
+        null=True,
+        validators=[MinValueValidator(2), MaxValueValidator(30)],
+    )
+    execution_date = models.DateField(auto_now_add=True)
     is_positive = models.BooleanField()
-    execution_date = models.DateField(
-        null=True, blank=True
-    )  # 1 minute -> execution_date <= datetime.now().days +timedelta(days=7)
     status = models.CharField(
         max_length=7, choices=STATUS_CHOICES, default=None, blank=True, null=True
     )
