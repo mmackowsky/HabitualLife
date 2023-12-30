@@ -20,6 +20,7 @@ class HabitForm(forms.ModelForm):
             "name",
             "category",
             "frequency",
+            "interval_value",
             "is_positive",
             "status",
         ]
