@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import IntegrityError
 from django.db.models import QuerySet
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, TemplateView
@@ -138,7 +138,7 @@ class HabitDeleteView(DeleteView):
         return HttpResponseRedirect(self.success_url)
 
     def form_invalid(self, form):
-        logging.error(form.errors)
+        logging.debug(form.errors)
         super().form_invalid(form)
 
 
