@@ -165,20 +165,99 @@
         outline: none !important;
     }
 
-    .card-footer{
-        background-color: gainsboro;
+    .nav-link {
+        color: black;
+        border-radius: 5px;
     }
+
+    .nav-tabs .nav-item .nav-link.active {
+        background-color: gray;
+        color: black;
+        border-color: gainsboro;
+        border-radius: 10px;
+    }
+
     </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+{#        Display habits due to current status#}
+        $(document).ready(function(){
+            function showHabitsByStatus(status) {
+                $(".list-group-item").hide();
+                $(".list-group-item[data-status='" + status + "']").show();
+            }
+
+            showHabitsByStatus('active');
+
+            $("#active-tab").click(function(){
+                showHabitsByStatus('active');
+            });
+
+            $("#completed-tab").click(function(){
+                showHabitsByStatus('success');
+            });
+
+            $("#failed-tab").click(function(){
+                showHabitsByStatus('failed');
+            });
+
+            $("#skipped-tab").click(function(){
+                showHabitsByStatus('skipped');
+            });
+        });
+    </script>
 </head>
+<!-- LEFT SIDE -->
 <div class="row d-flex justify-content-center container">
     <div class="col-md-8">
         <div class="card-hover-shadow-2x mb-3 card" style="border-radius: 20px;">
             <div class="card-header-tab card-header"
                  style="border-top-left-radius: 20px;
                         border-top-right-radius: 20px">
-                <div class="card-header-title font-size-lg text-capitalize font-weight-normal">
-                    <i class="fa fa-tasks"></i>&nbsp;Your Habits
-                </div>
+                <h5 style="position: relative;
+                           margin-right: 30px;
+                           top: 6px;
+                           font-family: Georgia">DAILY</h5>
+                <ul class="nav nav-tabs card-header-tabs"
+                    style="position: relative;
+                           bottom: 4px">
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           id="active-tab"
+                           data-toggle="tab"
+                           href="#ACTIVE"
+                           role="tab"
+                           aria-controls="active"
+                           aria-selected="false">Active</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           id="completed-tab"
+                           data-toggle="tab"
+                           href="#SUCCESS"
+                           role="tab"
+                           aria-controls="completed"
+                           aria-selected="false">Completed</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           id="failed-tab"
+                           data-toggle="tab"
+                           href="#FAILED"
+                           role="tab"
+                           aria-controls="failed"
+                           aria-selected="false">Failed</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           id="skipped-tab"
+                           data-toggle="tab"
+                           href="#SKIPPED"
+                           role="tab"
+                           aria-controls="skipped"
+                           aria-selected="false">Skipped</a>
+                    </li>
+                </ul>
             </div>
             <div class="scroll-area-sm" style="position: relative; height: 500px;">
                 <perfect-scrollbar class="ps-show-limits">
@@ -186,87 +265,444 @@
                     <div class="ps-content">
                         <ul class=" list-group list-group-flush">
                             {% for habit in habits %}
-                                <li class="list-group-item"
-                                    style="background-color: rgba(220, 220, 220, 0.6)">
-                                    <div class="todo-indicator"
-                                         style="background-color: {{ habit.category.color }}"></div>
-                                    <div class="widget-content p-0">
-                                        <div class="widget-content-wrapper">
-                                            <div class="widget-content-left mr-2">
-                                                <div class="custom-checkbox custom-control">
-                                                    <input class="custom-control-input"
-                                                           id="exampleCustomCheckbox12"
-                                                           type="checkbox">
-                                                    <label class="custom-control-label"
-                                                           for="exampleCustomCheckbox12"
-                                                           style="visibility: hidden">&nbsp;</label>
-                                                </div>
-                                            </div>
-                                            <div class="widget-content-left">
-                                                <div class="widget-heading" style="position: relative; right: 20px;">{{ habit.name }}</div>
-                                                <div class="widget-subheading" style="position: relative; right: 20px;">
-                                                    <i>{{ habit.category }}</i>
-                                                </div>
-                                            </div>
-                                            <div class="widget-content-right" style="position: relative">
-                                                <form method="post" action="{% url "update-habit" habit.id %}">
-                                                    {% csrf_token %}
-                                                    <input type="hidden" name="category_id" value="{{ habit.id }}">
-                                                    <button type="submit"
-                                                            id="status"
-                                                            name="status"
-                                                            value="SUCCESS"
-                                                            class="border-0 btn-transition btn btn-outline-success">
-                                                        <i class="fa fa-check"></i>
-                                                    </button>
-                                                    <div class="dropdown">
-                                                        <button class="border-0 btn-transition btn"
-                                                                type="button"
-                                                                id="dropdownMenuButton"
-                                                                data-toggle="dropdown"
-                                                                aria-haspopup="true"
-                                                                aria-expanded="false">
-                                                            <i class="fa fa-bars"></i>
-                                                        </button>
-                                                        <div class="dropdown-menu"
-                                                             aria-labelledby="dropdownMenuButton"
-                                                             style="background-color: rgba(220, 220, 220, 0.9)">
-                                                            <!-- Tu dodaj zawartość menu -->
-                                                            <button type="submit"
-                                                                    id="status"
-                                                                    name="status"
-                                                                    value="FAILED"
-                                                                    class="dropdown-item">
-                                                                Failed&nbsp <i class="fa fa-times"></i>
-                                                            </button>
-                                                            <button type="submit"
-                                                                    id="status"
-                                                                    name="status"
-                                                                    value="SKIPPED"
-                                                                    class="dropdown-item"
-                                                                    href="#">
-                                                                Skip&nbsp <i class="fa fa-arrow-down"></i>
-                                                            </button>
-                                                        </div>
+                                {% if habit.active and habit.frequency == "DAILY" %}
+                                    <li class="list-group-item"
+                                        style="background-color: rgba(220, 220, 220, 0.6);
+                                               border: gainsboro"
+                                        id="ACTIVE"
+                                        data-status="{% if habit.active %}active{% elif habit.status == 'SUCCESS' %}success{% elif habit.status == 'FAILED' %}failed{% elif habit.status == 'SKIPPED' %}skipped{% endif %}">
+                                        <div class="todo-indicator"
+                                             style="background-color: {{ habit.category.color }}"></div>
+                                        <div class="widget-content p-0">
+                                            <div class="widget-content-wrapper">
+                                                <div class="widget-content-left mr-2">
+                                                    <div class="custom-checkbox custom-control">
+                                                        <input class="custom-control-input"
+                                                               id="exampleCustomCheckbox12"
+                                                               type="checkbox">
+                                                        <label class="custom-control-label"
+                                                               for="exampleCustomCheckbox12"
+                                                               style="visibility: hidden">&nbsp;</label>
                                                     </div>
-                                                </form>
+                                                </div>
+                                                <div class="widget-content-left">
+                                                    <div class="widget-heading"
+                                                         style="position: relative;
+                                                                right: 20px;
+                                                                color: black">{{ habit.name }}</div>
+                                                    <div class="widget-subheading" style="position: relative; right: 20px;">
+                                                        <i>{{ habit.category }}</i>
+                                                    </div>
+                                                </div>
+                                                <div class="widget-content-right" style="position: relative">
+                                                    <form method="post" action="{% url "update-habit" habit.id %}">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="category_id" value="{{ habit.id }}">
+                                                        <button type="submit"
+                                                                id="status"
+                                                                name="status"
+                                                                value="SUCCESS"
+                                                                class="border-0 btn-transition btn btn-outline-success">
+                                                            <i class="fa fa-check"></i>
+                                                        </button>
+                                                        <div class="dropdown">
+                                                            <button class="border-0 btn-transition btn"
+                                                                    type="button"
+                                                                    id="dropdownMenuButton"
+                                                                    data-toggle="dropdown"
+                                                                    aria-haspopup="true"
+                                                                    aria-expanded="false">
+                                                                <i class="fa fa-bars"></i>
+                                                            </button>
+                                                            <div class="dropdown-menu"
+                                                                 aria-labelledby="dropdownMenuButton"
+                                                                 style="background-color: rgba(220, 220, 220, 0.9)">
+                                                                <!-- Tu dodaj zawartość menu -->
+                                                                <button type="submit"
+                                                                        id="status"
+                                                                        name="status"
+                                                                        value="FAILED"
+                                                                        class="dropdown-item">
+                                                                    Failed&nbsp <i class="fa fa-times"></i>
+                                                                </button>
+                                                                <button type="submit"
+                                                                        id="status"
+                                                                        name="status"
+                                                                        value="SKIPPED"
+                                                                        class="dropdown-item"
+                                                                        href="#">
+                                                                    Skip&nbsp <i class="fa fa-arrow-down"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </li>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                            {% for habit in habits %}
+                                {% if not habit.active and habit.status == "SUCCESS" and habit.frequency == "DAILY" %}
+                                    <li class="list-group-item"
+                                        style="background-color: rgba(220, 220, 220, 0.6);
+                                               border-color: gainsboro"
+                                        id="SUCCESS"
+                                        data-status="{% if habit.active %}active{% elif habit.status == 'SUCCESS' %}success{% elif habit.status == 'FAILED' %}failed{% elif habit.status == 'SKIPPED' %}skipped{% endif %}">
+                                        <div class="todo-indicator"
+                                             style="background-color: {{ habit.category.color }}"></div>
+                                        <div class="widget-content p-0">
+                                            <div class="widget-content-wrapper">
+                                                <div class="widget-content-left mr-2">
+                                                    <div class="custom-checkbox custom-control">
+                                                        <input class="custom-control-input"
+                                                               id="exampleCustomCheckbox12"
+                                                               type="checkbox">
+                                                        <label class="custom-control-label"
+                                                               for="exampleCustomCheckbox12"
+                                                               style="visibility: hidden">&nbsp;</label>
+                                                    </div>
+                                                </div>
+                                                <div class="widget-content-left">
+                                                    <div class="widget-heading"
+                                                         style="position: relative;
+                                                                right: 20px;
+                                                                color: black">{{ habit.name }}</div>
+                                                    <div class="widget-subheading" style="position: relative; right: 20px;">
+                                                        <i>{{ habit.category }}</i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                            {% for habit in habits %}
+                                {% if not habit.active and habit.status == "FAILED" and habit.frequency == "DAILY" %}
+                                    <li class="list-group-item"
+                                        style="background-color: rgba(220, 220, 220, 0.6);
+                                               border: gainsboro"
+                                        id="FAILED"
+                                        data-status="{% if habit.active %}active{% elif habit.status == 'SUCCESS' %}success{% elif habit.status == 'FAILED' %}failed{% elif habit.status == 'SKIPPED' %}skipped{% endif %}">
+                                        <div class="todo-indicator"
+                                             style="background-color: {{ habit.category.color }}"></div>
+                                        <div class="widget-content p-0">
+                                            <div class="widget-content-wrapper">
+                                                <div class="widget-content-left mr-2">
+                                                    <div class="custom-checkbox custom-control">
+                                                        <input class="custom-control-input"
+                                                               id="exampleCustomCheckbox12"
+                                                               type="checkbox">
+                                                        <label class="custom-control-label"
+                                                               for="exampleCustomCheckbox12"
+                                                               style="visibility: hidden">&nbsp;</label>
+                                                    </div>
+                                                </div>
+                                                <div class="widget-content-left">
+                                                    <div class="widget-heading"
+                                                         style="position: relative;
+                                                                right: 20px;
+                                                                color: black">{{ habit.name }}</div>
+                                                    <div class="widget-subheading" style="position: relative; right: 20px;">
+                                                        <i>{{ habit.category }}</i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                            {% for habit in habits %}
+                                {% if not habit.active and habit.status == "SKIPPED" and habit.frequency == "DAILY" %}
+                                    <li class="list-group-item"
+                                        style="background-color: rgba(220, 220, 220, 0.6);
+                                               border: gainsboro"
+                                        id="SKIPPED"
+                                        data-status="{% if habit.active %}active{% elif habit.status == 'SUCCESS' %}success{% elif habit.status == 'FAILED' %}failed{% elif habit.status == 'SKIPPED' %}skipped{% endif %}">
+                                        <div class="todo-indicator"
+                                             style="background-color: {{ habit.category.color }}"></div>
+                                        <div class="widget-content p-0">
+                                            <div class="widget-content-wrapper">
+                                                <div class="widget-content-left mr-2">
+                                                    <div class="custom-checkbox custom-control">
+                                                        <input class="custom-control-input"
+                                                               id="exampleCustomCheckbox12"
+                                                               type="checkbox">
+                                                        <label class="custom-control-label"
+                                                               for="exampleCustomCheckbox12"
+                                                               style="visibility: hidden">&nbsp;</label>
+                                                    </div>
+                                                </div>
+                                                <div class="widget-content-left">
+                                                    <div class="widget-heading"
+                                                         style="position: relative;
+                                                                right: 20px;
+                                                                color: black">{{ habit.name }}</div>
+                                                    <div class="widget-subheading" style="position: relative; right: 20px;">
+                                                        <i>{{ habit.category }}</i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                {% endif %}
                             {% endfor %}
                         </ul>
                     </div>
                 </div>
                 </perfect-scrollbar>
             </div>
-            {#            <div class="d-block text-right card-footer"#}
-            {#                 style="border-bottom-right-radius: 20px;#}
-            {#                        border-bottom-left-radius: 20px;#}
-            {#                        background-color: rgba(220, 220, 220, 0.6)">#}
-            {#                <button class="mr-2 btn btn-link btn-sm">Cancel</button>#}
-            {#                <button class="btn btn-primary">Add Task</button>#}
-            {#            </div>#}
+        </div>
+    </div>
+</div>
+<!-- RIGHT SIDE -->
+<div class="row d-flex justify-content-center container"
+     style="position: relative;
+            left: 680px;
+            bottom: 672px">
+    <div class="col-md-8">
+        <div class="card-hover-shadow-2x mb-3 card" style="border-radius: 20px;">
+            <div class="card-header-tab card-header"
+                 style="border-top-left-radius: 20px;
+                        border-top-right-radius: 20px">
+                <h5 style="position: relative;
+                           margin-right: 20px;
+                           top: 6px;
+                           font-family: Georgia">INTERVAL</h5>
+                <ul class="nav nav-tabs card-header-tabs"
+                    style="position: relative;
+                           bottom: 4px">
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           id="active-tab"
+                           data-toggle="tab"
+                           href="#ACTIVE"
+                           role="tab"
+                           aria-controls="active"
+                           aria-selected="false">Active</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           id="completed-tab"
+                           data-toggle="tab"
+                           href="#SUCCESS"
+                           role="tab"
+                           aria-controls="completed"
+                           aria-selected="false">Completed</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           id="failed-tab"
+                           data-toggle="tab"
+                           href="#FAILED"
+                           role="tab"
+                           aria-controls="failed"
+                           aria-selected="false">Failed</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           id="skipped-tab"
+                           data-toggle="tab"
+                           href="#SKIPPED"
+                           role="tab"
+                           aria-controls="skipped"
+                           aria-selected="false">Skipped</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="scroll-area-sm" style="position: relative; height: 500px;">
+                <perfect-scrollbar class="ps-show-limits">
+                <div style="position: static;" class="ps ps--active-y">
+                    <div class="ps-content">
+                        <ul class=" list-group list-group-flush">
+                            {% for habit in habits %}
+                                {% if habit.active and habit.frequency == "INTERVAL" %}
+                                    <li class="list-group-item"
+                                        style="background-color: rgba(220, 220, 220, 0.6);
+                                               border: gainsboro"
+                                        id="ACTIVE"
+                                        data-status="{% if habit.active %}active{% elif habit.status == 'SUCCESS' %}success{% elif habit.status == 'FAILED' %}failed{% elif habit.status == 'SKIPPED' %}skipped{% endif %}">
+                                        <div class="todo-indicator"
+                                             style="background-color: {{ habit.category.color }}"></div>
+                                        <div class="widget-content p-0">
+                                            <div class="widget-content-wrapper">
+                                                <div class="widget-content-left mr-2">
+                                                    <div class="custom-checkbox custom-control">
+                                                        <input class="custom-control-input"
+                                                               id="exampleCustomCheckbox12"
+                                                               type="checkbox">
+                                                        <label class="custom-control-label"
+                                                               for="exampleCustomCheckbox12"
+                                                               style="visibility: hidden">&nbsp;</label>
+                                                    </div>
+                                                </div>
+                                                <div class="widget-content-left">
+                                                    <div class="widget-heading"
+                                                         style="position: relative;
+                                                                right: 20px;
+                                                                color: black">{{ habit.name }}</div>
+                                                    <div class="widget-subheading" style="position: relative; right: 20px;">
+                                                        <i>{{ habit.category }}</i>
+                                                    </div>
+                                                </div>
+                                                <div class="widget-content-right" style="position: relative">
+                                                    <form method="post" action="{% url "update-habit" habit.id %}">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="category_id" value="{{ habit.id }}">
+                                                        <button type="submit"
+                                                                id="status"
+                                                                name="status"
+                                                                value="SUCCESS"
+                                                                class="border-0 btn-transition btn btn-outline-success">
+                                                            <i class="fa fa-check"></i>
+                                                        </button>
+                                                        <div class="dropdown">
+                                                            <button class="border-0 btn-transition btn"
+                                                                    type="button"
+                                                                    id="dropdownMenuButton"
+                                                                    data-toggle="dropdown"
+                                                                    aria-haspopup="true"
+                                                                    aria-expanded="false">
+                                                                <i class="fa fa-bars"></i>
+                                                            </button>
+                                                            <div class="dropdown-menu"
+                                                                 aria-labelledby="dropdownMenuButton"
+                                                                 style="background-color: rgba(220, 220, 220, 0.9)">
+                                                                <!-- Tu dodaj zawartość menu -->
+                                                                <button type="submit"
+                                                                        id="status"
+                                                                        name="status"
+                                                                        value="FAILED"
+                                                                        class="dropdown-item">
+                                                                    Failed&nbsp <i class="fa fa-times"></i>
+                                                                </button>
+                                                                <button type="submit"
+                                                                        id="status"
+                                                                        name="status"
+                                                                        value="SKIPPED"
+                                                                        class="dropdown-item"
+                                                                        href="#">
+                                                                    Skip&nbsp <i class="fa fa-arrow-down"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                            {% for habit in habits %}
+                                {% if not habit.active and habit.status == "SUCCESS" and habit.frequency == "INTERVAL" %}
+                                    <li class="list-group-item"
+                                        style="background-color: rgba(220, 220, 220, 0.6);
+                                               border-color: gainsboro"
+                                        id="SUCCESS"
+                                        data-status="{% if habit.active %}active{% elif habit.status == 'SUCCESS' %}success{% elif habit.status == 'FAILED' %}failed{% elif habit.status == 'SKIPPED' %}skipped{% endif %}">
+                                        <div class="todo-indicator"
+                                             style="background-color: {{ habit.category.color }}"></div>
+                                        <div class="widget-content p-0">
+                                            <div class="widget-content-wrapper">
+                                                <div class="widget-content-left mr-2">
+                                                    <div class="custom-checkbox custom-control">
+                                                        <input class="custom-control-input"
+                                                               id="exampleCustomCheckbox12"
+                                                               type="checkbox">
+                                                        <label class="custom-control-label"
+                                                               for="exampleCustomCheckbox12"
+                                                               style="visibility: hidden">&nbsp;</label>
+                                                    </div>
+                                                </div>
+                                                <div class="widget-content-left">
+                                                    <div class="widget-heading"
+                                                         style="position: relative;
+                                                                right: 20px;
+                                                                color: black">{{ habit.name }}</div>
+                                                    <div class="widget-subheading" style="position: relative; right: 20px;">
+                                                        <i>{{ habit.category }}</i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                            {% for habit in habits %}
+                                {% if not habit.active and habit.status == "FAILED" and habit.frequency == "INTERVAL" %}
+                                    <li class="list-group-item"
+                                        style="background-color: rgba(220, 220, 220, 0.6);
+                                               border: gainsboro"
+                                        id="FAILED"
+                                        data-status="{% if habit.active %}active{% elif habit.status == 'SUCCESS' %}success{% elif habit.status == 'FAILED' %}failed{% elif habit.status == 'SKIPPED' %}skipped{% endif %}">
+                                        <div class="todo-indicator"
+                                             style="background-color: {{ habit.category.color }}"></div>
+                                        <div class="widget-content p-0">
+                                            <div class="widget-content-wrapper">
+                                                <div class="widget-content-left mr-2">
+                                                    <div class="custom-checkbox custom-control">
+                                                        <input class="custom-control-input"
+                                                               id="exampleCustomCheckbox12"
+                                                               type="checkbox">
+                                                        <label class="custom-control-label"
+                                                               for="exampleCustomCheckbox12"
+                                                               style="visibility: hidden">&nbsp;</label>
+                                                    </div>
+                                                </div>
+                                                <div class="widget-content-left">
+                                                    <div class="widget-heading"
+                                                         style="position: relative;
+                                                                right: 20px;
+                                                                color: black">{{ habit.name }}</div>
+                                                    <div class="widget-subheading" style="position: relative; right: 20px;">
+                                                        <i>{{ habit.category }}</i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                            {% for habit in habits %}
+                                {% if not habit.active and habit.status == "SKIPPED" and habit.frequency == "INTERVAL" %}
+                                    <li class="list-group-item"
+                                        style="background-color: rgba(220, 220, 220, 0.6);
+                                               border: gainsboro"
+                                        id="SKIPPED"
+                                        data-status="{% if habit.active %}active{% elif habit.status == 'SUCCESS' %}success{% elif habit.status == 'FAILED' %}failed{% elif habit.status == 'SKIPPED' %}skipped{% endif %}">
+                                        <div class="todo-indicator"
+                                             style="background-color: {{ habit.category.color }}"></div>
+                                        <div class="widget-content p-0">
+                                            <div class="widget-content-wrapper">
+                                                <div class="widget-content-left mr-2">
+                                                    <div class="custom-checkbox custom-control">
+                                                        <input class="custom-control-input"
+                                                               id="exampleCustomCheckbox12"
+                                                               type="checkbox">
+                                                        <label class="custom-control-label"
+                                                               for="exampleCustomCheckbox12"
+                                                               style="visibility: hidden">&nbsp;</label>
+                                                    </div>
+                                                </div>
+                                                <div class="widget-content-left">
+                                                    <div class="widget-heading"
+                                                         style="position: relative;
+                                                                right: 20px;
+                                                                color: black">{{ habit.name }}</div>
+                                                    <div class="widget-subheading" style="position: relative; right: 20px;">
+                                                        <i>{{ habit.category }}</i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                </perfect-scrollbar>
+            </div>
         </div>
     </div>
 </div>
