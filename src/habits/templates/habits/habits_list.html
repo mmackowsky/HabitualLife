@@ -75,7 +75,16 @@
         overflow-x: hidden;
     }
 
-    .list-group-item {
+    .daily-list-group-item {
+        position: relative;
+        display: block;
+        padding: 0.75rem 1.25rem;
+        margin-bottom: -1px;
+        background-color: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.125);
+    }
+
+    .interval-list-group-item {
         position: relative;
         display: block;
         padding: 0.75rem 1.25rem;
@@ -180,34 +189,59 @@
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-{#        Display habits due to current status#}
         $(document).ready(function(){
-            function showHabitsByStatus(status) {
-                $(".list-group-item").hide();
-                $(".list-group-item[data-status='" + status + "']").show();
+            function showDailyHabitsByStatus(status) {
+                $(".daily-list-group-item").hide();
+                $(".daily-list-group-item[data-status='" + status + "']").show();
             }
 
-            showHabitsByStatus('active');
+            showDailyHabitsByStatus('daily-active');
 
-            $("#active-tab").click(function(){
-                showHabitsByStatus('active');
+            $("#daily-active-tab").click(function(){
+                showDailyHabitsByStatus('daily-active');
             });
 
-            $("#completed-tab").click(function(){
-                showHabitsByStatus('success');
+            $("#daily-success-tab").click(function(){
+                showDailyHabitsByStatus('daily-success');
             });
 
-            $("#failed-tab").click(function(){
-                showHabitsByStatus('failed');
+            $("#daily-failed-tab").click(function(){
+                showDailyHabitsByStatus('daily-failed');
             });
-
-            $("#skipped-tab").click(function(){
-                showHabitsByStatus('skipped');
+            $("#daily-skipped-tab").click(function(){
+                showDailyHabitsByStatus('daily-skipped');
             });
         });
+
+        $(document).ready(function(){
+            function showIntervalHabitsByStatus(status) {
+                $(".interval-list-group-item").hide();
+                $(".interval-list-group-item[data-status='" + status + "']").show();
+            }
+
+            showIntervalHabitsByStatus('interval-active');
+
+            $("#interval-active-tab").click(function(){
+                showIntervalHabitsByStatus('interval-active');
+            });
+
+            $("#interval-success-tab").click(function(){
+                showIntervalHabitsByStatus('interval-success');
+            });
+
+            $("#interval-failed-tab").click(function(){
+                showIntervalHabitsByStatus('interval-failed');
+            });
+
+            $("#interval-skipped-tab").click(function(){
+                showIntervalHabitsByStatus('interval-skipped');
+            });
+        });
+
+
     </script>
 </head>
-<!-- LEFT SIDE -->
+<!-- LEFT SIDE DAILY -->
 <div class="row d-flex justify-content-center container">
     <div class="col-md-8">
         <div class="card-hover-shadow-2x mb-3 card" style="border-radius: 20px;">
@@ -223,38 +257,38 @@
                            bottom: 4px">
                     <li class="nav-item">
                         <a class="nav-link"
-                           id="active-tab"
+                           id="daily-active-tab"
                            data-toggle="tab"
                            href="#ACTIVE"
                            role="tab"
-                           aria-controls="active"
+                           aria-controls="daily-active"
                            aria-selected="false">Active</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
-                           id="completed-tab"
+                           id="daily-success-tab"
                            data-toggle="tab"
                            href="#SUCCESS"
                            role="tab"
-                           aria-controls="completed"
+                           aria-controls="daily-success"
                            aria-selected="false">Completed</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
-                           id="failed-tab"
+                           id="daily-failed-tab"
                            data-toggle="tab"
                            href="#FAILED"
                            role="tab"
-                           aria-controls="failed"
+                           aria-controls="daily-failed"
                            aria-selected="false">Failed</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
-                           id="skipped-tab"
+                           id="daily-skipped-tab"
                            data-toggle="tab"
                            href="#SKIPPED"
                            role="tab"
-                           aria-controls="skipped"
+                           aria-controls="daily-skipped"
                            aria-selected="false">Skipped</a>
                     </li>
                 </ul>
@@ -266,11 +300,11 @@
                         <ul class=" list-group list-group-flush">
                             {% for habit in habits %}
                                 {% if habit.active and habit.frequency == "DAILY" %}
-                                    <li class="list-group-item"
+                                    <li class="daily-list-group-item"
                                         style="background-color: rgba(220, 220, 220, 0.6);
                                                border: gainsboro"
                                         id="ACTIVE"
-                                        data-status="{% if habit.active %}active{% elif habit.status == 'SUCCESS' %}success{% elif habit.status == 'FAILED' %}failed{% elif habit.status == 'SKIPPED' %}skipped{% endif %}">
+                                        data-status="{% if habit.active %}daily-active{% elif habit.status == 'SUCCESS' %}daily-success{% elif habit.status == 'FAILED' %}daily-failed{% elif habit.status == 'SKIPPED' %}daily-skipped{% endif %}">
                                         <div class="todo-indicator"
                                              style="background-color: {{ habit.category.color }}"></div>
                                         <div class="widget-content p-0">
@@ -344,11 +378,11 @@
                             {% endfor %}
                             {% for habit in habits %}
                                 {% if not habit.active and habit.status == "SUCCESS" and habit.frequency == "DAILY" %}
-                                    <li class="list-group-item"
+                                    <li class="daily-list-group-item"
                                         style="background-color: rgba(220, 220, 220, 0.6);
                                                border-color: gainsboro"
                                         id="SUCCESS"
-                                        data-status="{% if habit.active %}active{% elif habit.status == 'SUCCESS' %}success{% elif habit.status == 'FAILED' %}failed{% elif habit.status == 'SKIPPED' %}skipped{% endif %}">
+                                        data-status="{% if habit.active %}daily-active{% elif habit.status == 'SUCCESS' %}daily-success{% elif habit.status == 'FAILED' %}daily-failed{% elif habit.status == 'SKIPPED' %}daily-skipped{% endif %}">
                                         <div class="todo-indicator"
                                              style="background-color: {{ habit.category.color }}"></div>
                                         <div class="widget-content p-0">
@@ -379,11 +413,11 @@
                             {% endfor %}
                             {% for habit in habits %}
                                 {% if not habit.active and habit.status == "FAILED" and habit.frequency == "DAILY" %}
-                                    <li class="list-group-item"
+                                    <li class="daily-list-group-item"
                                         style="background-color: rgba(220, 220, 220, 0.6);
                                                border: gainsboro"
                                         id="FAILED"
-                                        data-status="{% if habit.active %}active{% elif habit.status == 'SUCCESS' %}success{% elif habit.status == 'FAILED' %}failed{% elif habit.status == 'SKIPPED' %}skipped{% endif %}">
+                                        data-status="{% if habit.active %}daily-active{% elif habit.status == 'SUCCESS' %}daily-success{% elif habit.status == 'FAILED' %}daily-failed{% elif habit.status == 'SKIPPED' %}daily-skipped{% endif %}">
                                         <div class="todo-indicator"
                                              style="background-color: {{ habit.category.color }}"></div>
                                         <div class="widget-content p-0">
@@ -414,11 +448,11 @@
                             {% endfor %}
                             {% for habit in habits %}
                                 {% if not habit.active and habit.status == "SKIPPED" and habit.frequency == "DAILY" %}
-                                    <li class="list-group-item"
+                                    <li class="daily-list-group-item"
                                         style="background-color: rgba(220, 220, 220, 0.6);
                                                border: gainsboro"
                                         id="SKIPPED"
-                                        data-status="{% if habit.active %}active{% elif habit.status == 'SUCCESS' %}success{% elif habit.status == 'FAILED' %}failed{% elif habit.status == 'SKIPPED' %}skipped{% endif %}">
+                                        data-status="{% if habit.active %}daily-active{% elif habit.status == 'SUCCESS' %}daily-success{% elif habit.status == 'FAILED' %}daily-failed{% elif habit.status == 'SKIPPED' %}daily-skipped{% endif %}">
                                         <div class="todo-indicator"
                                              style="background-color: {{ habit.category.color }}"></div>
                                         <div class="widget-content p-0">
@@ -455,10 +489,10 @@
         </div>
     </div>
 </div>
-<!-- RIGHT SIDE -->
-<div class="row d-flex justify-content-center container"
+<!-- RIGHT SIDE INTERVAL -->
+<div class="row d-flex  container"
      style="position: relative;
-            left: 680px;
+            left: 850px;
             bottom: 672px">
     <div class="col-md-8">
         <div class="card-hover-shadow-2x mb-3 card" style="border-radius: 20px;">
@@ -474,38 +508,38 @@
                            bottom: 4px">
                     <li class="nav-item">
                         <a class="nav-link"
-                           id="active-tab"
+                           id="interval-active-tab"
                            data-toggle="tab"
                            href="#ACTIVE"
                            role="tab"
-                           aria-controls="active"
+                           aria-controls="interval-active"
                            aria-selected="false">Active</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
-                           id="completed-tab"
+                           id="interval-success-tab"
                            data-toggle="tab"
                            href="#SUCCESS"
                            role="tab"
-                           aria-controls="completed"
+                           aria-controls="interval-success"
                            aria-selected="false">Completed</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
-                           id="failed-tab"
+                           id="interval-failed-tab"
                            data-toggle="tab"
                            href="#FAILED"
                            role="tab"
-                           aria-controls="failed"
+                           aria-controls="interval-failed"
                            aria-selected="false">Failed</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
-                           id="skipped-tab"
+                           id="interval-skipped-tab"
                            data-toggle="tab"
                            href="#SKIPPED"
                            role="tab"
-                           aria-controls="skipped"
+                           aria-controls="interval-skipped"
                            aria-selected="false">Skipped</a>
                     </li>
                 </ul>
@@ -517,11 +551,11 @@
                         <ul class=" list-group list-group-flush">
                             {% for habit in habits %}
                                 {% if habit.active and habit.frequency == "INTERVAL" %}
-                                    <li class="list-group-item"
+                                    <li class="interval-list-group-item"
                                         style="background-color: rgba(220, 220, 220, 0.6);
                                                border: gainsboro"
                                         id="ACTIVE"
-                                        data-status="{% if habit.active %}active{% elif habit.status == 'SUCCESS' %}success{% elif habit.status == 'FAILED' %}failed{% elif habit.status == 'SKIPPED' %}skipped{% endif %}">
+                                        data-status="{% if habit.active %}interval-active{% elif habit.status == 'SUCCESS' %}interval-success{% elif habit.status == 'FAILED' %}interval-failed{% elif habit.status == 'SKIPPED' %}interval-skipped{% endif %}">
                                         <div class="todo-indicator"
                                              style="background-color: {{ habit.category.color }}"></div>
                                         <div class="widget-content p-0">
@@ -595,11 +629,11 @@
                             {% endfor %}
                             {% for habit in habits %}
                                 {% if not habit.active and habit.status == "SUCCESS" and habit.frequency == "INTERVAL" %}
-                                    <li class="list-group-item"
+                                    <li class="interval-list-group-item"
                                         style="background-color: rgba(220, 220, 220, 0.6);
                                                border-color: gainsboro"
                                         id="SUCCESS"
-                                        data-status="{% if habit.active %}active{% elif habit.status == 'SUCCESS' %}success{% elif habit.status == 'FAILED' %}failed{% elif habit.status == 'SKIPPED' %}skipped{% endif %}">
+                                        data-status="{% if habit.active %}interval-active{% elif habit.status == 'SUCCESS' %}interval-success{% elif habit.status == 'FAILED' %}interval-failed{% elif habit.status == 'SKIPPED' %}interval-skipped{% endif %}">
                                         <div class="todo-indicator"
                                              style="background-color: {{ habit.category.color }}"></div>
                                         <div class="widget-content p-0">
@@ -630,11 +664,11 @@
                             {% endfor %}
                             {% for habit in habits %}
                                 {% if not habit.active and habit.status == "FAILED" and habit.frequency == "INTERVAL" %}
-                                    <li class="list-group-item"
+                                    <li class="interval-list-group-item"
                                         style="background-color: rgba(220, 220, 220, 0.6);
                                                border: gainsboro"
                                         id="FAILED"
-                                        data-status="{% if habit.active %}active{% elif habit.status == 'SUCCESS' %}success{% elif habit.status == 'FAILED' %}failed{% elif habit.status == 'SKIPPED' %}skipped{% endif %}">
+                                        data-status="{% if habit.active %}interval-active{% elif habit.status == 'SUCCESS' %}interval-success{% elif habit.status == 'FAILED' %}interval-failed{% elif habit.status == 'SKIPPED' %}interval-skipped{% endif %}">
                                         <div class="todo-indicator"
                                              style="background-color: {{ habit.category.color }}"></div>
                                         <div class="widget-content p-0">
@@ -665,11 +699,11 @@
                             {% endfor %}
                             {% for habit in habits %}
                                 {% if not habit.active and habit.status == "SKIPPED" and habit.frequency == "INTERVAL" %}
-                                    <li class="list-group-item"
+                                    <li class="interval-list-group-item"
                                         style="background-color: rgba(220, 220, 220, 0.6);
                                                border: gainsboro"
                                         id="SKIPPED"
-                                        data-status="{% if habit.active %}active{% elif habit.status == 'SUCCESS' %}success{% elif habit.status == 'FAILED' %}failed{% elif habit.status == 'SKIPPED' %}skipped{% endif %}">
+                                        data-status="{% if habit.active %}interval-active{% elif habit.status == 'SUCCESS' %}interval-success{% elif habit.status == 'FAILED' %}interval-failed{% elif habit.status == 'SKIPPED' %}interval-skipped{% endif %}">
                                         <div class="todo-indicator"
                                              style="background-color: {{ habit.category.color }}"></div>
                                         <div class="widget-content p-0">
