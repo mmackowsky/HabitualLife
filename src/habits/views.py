@@ -1,3 +1,4 @@
+import datetime
 import logging
 from typing import Any
 
@@ -5,10 +6,9 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import IntegrityError
 from django.db.models import QuerySet
-from django.http import HttpResponseRedirect, JsonResponse
-from django.shortcuts import get_object_or_404
+from django.http import HttpRequest, HttpResponseRedirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, TemplateView
+from django.views.generic import ListView
 from django.views.generic.edit import (
     CreateView,
     DeleteView,
@@ -19,6 +19,7 @@ from django.views.generic.edit import (
 
 from .forms import CategoryForm, HabitForm
 from .models import Category, Habit
+from .tasks import ResetIntervalHabits, reset_daily, set_status_if_none
 
 
 class AddHabitMixin(FormMixin):
@@ -85,7 +86,7 @@ class CategoryDeleteView(LoginRequiredMixin, DeleteView):
 class CategoryUpdateView(LoginRequiredMixin, UpdateView):
     model = Category
     success_url = reverse_lazy("categories")
-    fields = ["name"]
+    fields = ["name", "color"]
     template_name = "habits/categories.html"
 
     # Provide change name of category functionality
@@ -105,6 +106,11 @@ class HabitListView(LoginRequiredMixin, ListView, AddHabitMixin):
         context = super().get_context_data()
         context["habits"] = Habit.objects.filter(user=self.request.user.profile)
         return context
+
+    # def get(self, request, *args, **kwargs):
+    #     reset_daily.delay()
+    #     ResetIntervalHabits().delay()
+    #     set_status_if_none.delay()
 
 
 class HabitAddView(LoginRequiredMixin, CreateView):
@@ -154,6 +160,7 @@ class HabitUpdateView(LoginRequiredMixin, UpdateView):
         new_status = form.cleaned_data.get("status")
 
         self.increase_status_value(habit=habit, status=new_status)
+        self.change_streak_value(habit=habit, status=new_status)
 
         habit.status = new_status
         habit.active = False
@@ -172,3 +179,10 @@ class HabitUpdateView(LoginRequiredMixin, UpdateView):
 
         if field_name:
             setattr(habit, field_name, getattr(habit, field_name) + 1)
+
+    @staticmethod
+    def change_streak_value(habit: Habit, status: str) -> None:
+        if status == "SUCCESS":
+            habit.streak_count += 1
+        else:
+            habit.streak_count = 0
