@@ -61,3 +61,4 @@ class Habit(models.Model):
     success_count = models.IntegerField(default=0)
     failed_count = models.IntegerField(default=0)
     skipped_count = models.IntegerField(default=0)
+    streak_count = models.IntegerField(default=0)
