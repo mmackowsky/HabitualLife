@@ -1,0 +1,14 @@
+{% extends "main.html" %}
+<head>
+    <title>Habit Statistics</title>
+    <!-- Wstaw tutaj niezbędne biblioteki CSS i JavaScript dla Plotly -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+{% block content %}
+    <body>
+        <div style="position: relative; left: 50px;">
+            <!-- Wyświetlenie wykresu -->
+            {{ plot_div|safe }}
+        </div>
+    </body>
+{% endblock %}
