@@ -11,13 +11,16 @@ logger = get_task_logger(__name__)
 class ResetIntervalHabits(Task):
     name = "reset_interval_habits"
 
+    def run(self, *args, **kwargs):
+        self.schedule_interval_habit_task()
+
     def schedule_interval_habit_task(self):
         habits = Habit.objects.filter(frequency="INTERVAL")
         for habit in habits:
             next_execution_date = habit.execution_date + datetime.timedelta(
                 days=habit.interval_value
             )
-            self.reset_interval.apply_async(habit.id, eta=next_execution_date)
+            self.reset_interval.apply_async(args=[habit.id], eta=next_execution_date)
 
     @shared_task()
     def reset_interval(self, habit_id):
