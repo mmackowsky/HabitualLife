@@ -1,0 +1,47 @@
+version: '3.9'
+
+services:
+  web:
+    build: .
+    command: bash -c "poetry run src/manage.py makemigrations && poetry run src/manage.py migrate && poetry run src/manage.py runserver 0.0.0.0:8002"
+    container_name: habitual_life
+    volumes:
+      - .:/habitual_life
+    ports:
+      - "8002:8002"
+    depends_on:
+      - db
+      - redis
+      - celery
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+
+  celery:
+    build: .
+    command: bash -c "cd src && celery -A core worker --loglevel=INFO --without-gossip --without-mingle --without-heartbeat -Ofair --pool=solo"
+    container_name: habitual_life_celery_worker
+    volumes:
+      - .:/habitual_life
+    environment:
+      CELERY_BROKER_URL: "redis://redis:6379/0"
+      CELERY_RESULT_BACKEND: "redis://redis:6379/0"
+    depends_on:
+      - redis
+
+  redis:
+    image: "redis:latest"
+    container_name: habitual_life_redis
+    ports:
+      - "6379:6379"
+
+  db:
+    container_name: postgresql_db
+    image: postgres:15
+    environment:
+        POSTGRES_DB: ${DB_NAME}
+        POSTGRES_USER: ${DB_USER}
+        POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5432:5432"
