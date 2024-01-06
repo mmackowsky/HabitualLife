@@ -3,3 +3,4 @@
 *.css linguist-vendored
 *.less linguist-vendored
 *.js linguist-vendored
+*.py text eol=lf
