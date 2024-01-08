@@ -11,13 +11,13 @@ class AdmitAchievementsTask(Task):
     name = "achievements_task"
 
     @shared_task
-    def first_habit(self, user):
+    def set_first_habit_achievement(self, user):
         if Habit.objects.filter(user=user).count() == 1:
             first_habit_achievement = Achievement.objects.get(name="Hello there.")
             first_habit_achievement.user.add(user)
 
     @shared_task
-    def daily_streak(self, user):
+    def set_daily_streak_achievement(self, user):
         habits = Habit.objects.filter(user=user)
         for habit in habits:
             if habit.streak_count == 100:
@@ -31,7 +31,7 @@ class AdmitAchievementsTask(Task):
                 achievement.user.add(user)
 
     @shared_task
-    def all_habits_for_day_done(self, user):
+    def set_all_habits_for_day_done_achievement(self, user):
         habits = Habit.objects.filter(user=user).exclude(
             execution_date=datetime.date.today(), active=True
         )
@@ -40,7 +40,7 @@ class AdmitAchievementsTask(Task):
             achievement.user.add(user)
 
     @shared_task
-    def skip_habit(self, user):
+    def set_skip_habit_achievement(self, user):
         habits = Habit.objects.filter(user=user)
         for habit in habits:
             if habit.skipped_count == 1:
@@ -48,7 +48,7 @@ class AdmitAchievementsTask(Task):
                 achievement.user.add(user)
 
     @shared_task()
-    def fail_habit(self, user):
+    def set_fail_habit_achievement(self, user):
         habits = Habit.objects.filter(user=user)
         for habit in habits:
             if habit.failed_count == 1:
