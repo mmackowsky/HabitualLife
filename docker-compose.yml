@@ -3,7 +3,7 @@ version: '3.9'
 services:
   web:
     build: .
-    command: bash -c "poetry run src/manage.py makemigrations && poetry run src/manage.py migrate && poetry run src/manage.py runserver 0.0.0.0:8002"
+    command: bash -c "poetry run src/manage.py makemigrations && poetry run src/manage.py migrate && poetry run src/manage.py loaddata src/fixtures/achievements.yaml && poetry run src/manage.py runserver 0.0.0.0:8002"
     container_name: habitual_life
     volumes:
       - .:/habitual_life
@@ -13,10 +13,6 @@ services:
       - db
       - redis
       - celery
-    deploy:
-      resources:
-        limits:
-          memory: 512M
 
   celery:
     build: .
@@ -25,8 +21,8 @@ services:
     volumes:
       - .:/habitual_life
     environment:
-      CELERY_BROKER_URL: "redis://redis:6379/0"
-      CELERY_RESULT_BACKEND: "redis://redis:6379/0"
+      CELERY_BROKER_URL: "redis://habitual_life_redis:6379/0"
+      CELERY_RESULT_BACKEND: "redis://habitual_life_redis:6379/0"
     depends_on:
       - redis
 
