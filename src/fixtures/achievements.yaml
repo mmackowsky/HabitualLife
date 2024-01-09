@@ -1,0 +1,35 @@
+- model: achievements.achievement
+  pk: 1
+  fields:
+    name: Hello there
+    description: Add first habit.
+- model: achievements.achievement
+  pk: 2
+  fields:
+    name: Shot at 10!
+    description: Achieve 10 days success in habits.
+- model: achievements.achievement
+  pk: 3
+  fields:
+    name: Unstoppable for 50 Days
+    description: Achieve 50 day success in habits.
+- model: achievements.achievement
+  pk: 4
+  fields:
+    name: Centurion
+    description: Achieve 100 days success in habits.
+- model: achievements.achievement
+  pk: 5
+  fields:
+    name: Disciplined
+    description: End all planned habits for one day.
+- model: achievements.achievement
+  pk: 6
+  fields:
+    name: Sloth
+    description: Skip the habit.
+- model: achievements.achievement
+  pk: 7
+  fields:
+    name: First defeat
+    description: Failed first habit.
