@@ -59,7 +59,7 @@ class SignupView(FormView):
     @staticmethod
     def add_default_categories(user):
         for category in Category.DEFAULT_CATEGORIES:
-            Category.objects.create(user=user, name=category[1])
+            Category.objects.create(user=user, name=category[1], color=category[2])
 
     def send_email(self, user, to_email):
         current_site = get_current_site(self.request)
