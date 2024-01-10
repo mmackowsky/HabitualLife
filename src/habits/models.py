@@ -9,9 +9,9 @@ from users.models import Profile
 
 class Category(models.Model):
     DEFAULT_CATEGORIES = [
-        ("HEALTH", "Health"),
-        ("FINANCE", "Finance"),
-        ("WORK", "Work"),
+        ("HEALTH", "Health", "#39FF00"),
+        ("FINANCE", "Finance", "#0B08FF"),
+        ("WORK", "Work", "#1FF5FF"),
     ]
 
     user = models.ForeignKey(
