@@ -63,19 +63,22 @@
                 width: 400px">
         <h3 style="font-family: Georgia, Times, serif;">Achievements</h3>
         <hr>
-        {% for achievement in achievements %}
-            <div style="background-color: rgba(220, 220, 220, 0.6);
-                        border-radius: 10px;
-                        margin-left: 20px">
-                <li style="list-style-type: none; margin-left: 15px;">
-                    <strong style="color: black;
-                                   font-size: large;
-                                   font-family: Georgia, Times, serif">{{ achievement.name }}</strong>
-                    <p style="color: black;
-                              margin-left: 10px;
-                              font-family: Georgia, Times, serif">{{ achievement.description }}</p>
-                </li>
-            </div>
-        {% endfor %}
+        {% if request.user.is_authenticated %}
+            {% for achievement in achievements %}
+                <div style="{% if request.user.profile in achievement.user.all %}background-color: rgba(255, 215, 0, 0.5);
+                            {% else %}background-color: rgba(255, 255, 255, 0.6);
+                            {% endif %} border-radius: 10px;
+                            margin-left: 20px">
+                    <li style="list-style-type: none; margin-left: 15px;">
+                        <strong style="color: black;
+                                       font-size: large;
+                                       font-family: Georgia, Times, serif">{{ achievement.name }}</strong>
+                        <p style="color: black;
+                                  margin-left: 10px;
+                                  font-family: Georgia, Times, serif">{{ achievement.description }}</p>
+                    </li>
+                </div>
+            {% endfor %}
+        {% endif %}
     </div>
 {% endblock %}
