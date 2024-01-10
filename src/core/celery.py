@@ -25,8 +25,12 @@ def debug_task(self):
 
 
 app.conf.beat_schedule = {
-    "check_current_date": {
-        "task": "habits.tasks.check_current_date",
+    "reset_daily": {
+        "task": "habits.reset_daily",
+        "schedule": crontab(minute="0", hour="0"),
+    },
+    "set_status_if_omitted": {
+        "task": "habits.reset_daily",
         "schedule": crontab(minute="0", hour="0"),
     },
 }
