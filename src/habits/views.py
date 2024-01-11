@@ -1,12 +1,12 @@
 import datetime
 import logging
-from typing import Any
+from typing import Any, Dict
 
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import IntegrityError
 from django.db.models import QuerySet
-from django.http import HttpRequest, HttpResponseRedirect
+from django.http import HttpRequest, HttpResponseRedirect, JsonResponse
 from django.urls import reverse_lazy
 from django.views.generic import ListView
 from django.views.generic.edit import (
@@ -17,21 +17,29 @@ from django.views.generic.edit import (
     UpdateView,
 )
 
+from achievements.tasks import (
+    set_all_habits_for_day_done_achievement,
+    set_daily_streak_achievement,
+    set_fail_first_habit_achievement,
+    set_first_habit_achievement,
+    set_skip_first_habit_achievement,
+)
+
 from .forms import CategoryForm, HabitForm
 from .models import Category, Habit
-from .tasks import ResetIntervalHabits, reset_daily, set_status_if_none
+from .tasks import reset_daily, reset_interval, set_status_if_none
 
 
 class AddHabitMixin(FormMixin):
     model = Habit
     form_class = HabitForm
 
-    def get_form_kwargs(self):
+    def get_form_kwargs(self) -> Dict:
         kwargs = super().get_form_kwargs()
         kwargs["user"] = self.request.user.profile
         return kwargs
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> Dict[str, str]:
         context = super().get_context_data()
         context["frequencies"] = Habit.FREQUENCY_CHOICES
         return context
@@ -107,11 +115,6 @@ class HabitListView(LoginRequiredMixin, ListView, AddHabitMixin):
         context["habits"] = Habit.objects.filter(user=self.request.user.profile)
         return context
 
-    # def get(self, request, *args, **kwargs):
-    #     reset_daily.delay()
-    #     ResetIntervalHabits().delay()
-    #     set_status_if_none.delay()
-
 
 class HabitAddView(LoginRequiredMixin, CreateView):
     model = Habit
@@ -122,6 +125,9 @@ class HabitAddView(LoginRequiredMixin, CreateView):
     def form_valid(self, form: HabitForm) -> HttpResponseRedirect:
         form.instance.user = self.request.user.profile
         messages.success(self.request, "Habit added.")
+
+        set_first_habit_achievement.delay(user=self.request.user.profile.id)
+
         return super().form_valid(form)
 
     def form_invalid(self, form) -> HttpResponseRedirect:
@@ -161,6 +167,13 @@ class HabitUpdateView(LoginRequiredMixin, UpdateView):
 
         self.increase_status_value(habit=habit, status=new_status)
         self.change_streak_value(habit=habit, status=new_status)
+
+        # Achievements tasks.
+        user = self.request.user.profile.id
+        set_skip_first_habit_achievement.delay(user)
+        set_fail_first_habit_achievement.delay(user)
+        set_daily_streak_achievement.delay(user)
+        # set_all_habits_for_day_done_achievement.delay(user)
 
         habit.status = new_status
         habit.active = False
