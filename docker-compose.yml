@@ -16,7 +16,7 @@ services:
 
   celery:
     build: .
-    command: bash -c "cd src && celery -A core worker --loglevel=INFO --without-gossip --without-mingle --without-heartbeat -Ofair --pool=solo"
+    command: bash -c "cd src && poetry run celery -A core worker --loglevel=INFO --without-gossip --without-mingle --without-heartbeat -Ofair --pool=solo"
     container_name: habitual_life_celery_worker
     volumes:
       - .:/habitual_life
