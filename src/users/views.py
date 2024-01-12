@@ -102,11 +102,11 @@ class ActivateView(View):
 
     @staticmethod
     def get_user_by_uid(uidb64: str) -> Union[User, None]:
-        User = get_user_model()
+        user = get_user_model()
         try:
             uid = force_str(urlsafe_base64_decode(uidb64))
             return User.objects.get(pk=uid)
-        except (TypeError, ValueError, OverflowError, User.DoesNotExist) as e:
+        except (TypeError, ValueError, OverflowError, user.DoesNotExist) as e:
             logging.error(f"Issue in get_user_by_uid: {e}")
             return None
 
@@ -209,4 +209,4 @@ class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
         " If you don't receive an email, "
         "please make sure you've entered the address you registered with, and check your spam folder."
     )
-    success_url = reverse_lazy("start")
+    success_url = reverse_lazy("main")
