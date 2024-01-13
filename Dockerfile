@@ -6,11 +6,8 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /habitual_life
 
-COPY pyproject.toml /habitual_life
-COPY poetry.lock /habitual_life
+COPY pyproject.toml poetry.lock /habitual_life/
 
-RUN pip3 install poetry
-
-RUN poetry install
+RUN pip3 install poetry && poetry install --no-cache
 
 COPY . .
