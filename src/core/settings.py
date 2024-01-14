@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 
 import environ
+import sentry_sdk
 from django.contrib.messages import constants as messages
 
 from .env import env
@@ -34,6 +35,10 @@ DEBUG = env("DEBUG")
 
 ALLOWED_HOSTS = ["*"]
 
+# Poniższe ustawienia mogą być również potrzebne, aby Django generował poprawne linki
+# w zależności od tego, jak masz ustawioną konfigurację serwera i proxy.
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 # Application definition
 
@@ -44,18 +49,13 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "django.contrib.sites",
     "django_celery_results",
     "django_extensions",
     "colorfield",
+    "channels",
 ]
 
-INSTALLED_EXTENSIONS = [
-    "start",
-    "users",
-    "habits",
-    "report",
-]
+INSTALLED_EXTENSIONS = ["start", "users", "habits", "statistics", "achievements"]
 
 INSTALLED_APPS += INSTALLED_EXTENSIONS
 
@@ -194,18 +194,16 @@ LOGGING = {
 }
 
 # Celery
-CELERY_BROKER_URL = "redis://localhost:6379"  # ->
-CELERY_TIMEZONE = "Europe/Paris"
-CELERY_RESULT_BACKEND = "django-db"
+CELERY_BROKER_TRANSPORT_URL = env("CELERY_BROKER_TRANSPORT_URL")
+CELERY_TIMEZONE = env("CELERY_TIMEZONE")
+CELERY_RESULT_BACKEND = env("CELERY_RESULT_BACKEND")
 
-SITE_ID = 1
-
+# Email settings
 EMAIL_USE_TLS = True
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_HOST_USER = env("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
 EMAIL_PORT = env("EMAIL_PORT")
-
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 # AWS settings
@@ -213,3 +211,17 @@ AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = env("AWS_SECRET_ACCESS_KEY")
 AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME")
 AWS_S3_REGION_NAME = env("AWS_S3_REGION_NAME")
+
+# SENTRY
+sentry_sdk.init(
+    dsn="https://e26d05b7b1788333665e178e301529ae@o4505985866792960.ingest.sentry.io/4506473310322688",
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    traces_sample_rate=1.0,
+    # Set profiles_sample_rate to 1.0 to profile 100%
+    # of sampled transactions.
+    # We recommend adjusting this value in production.
+    profiles_sample_rate=1.0,
+)
+
+FIXTURE_DIRS = "fixtures/"
