@@ -1,24 +1,15 @@
-import datetime
 import logging
 from typing import Any, Dict
 
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import IntegrityError
-from django.db.models import QuerySet
-from django.http import HttpRequest, HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView
-from django.views.generic.edit import (
-    CreateView,
-    DeleteView,
-    FormMixin,
-    FormView,
-    UpdateView,
-)
+from django.views.generic.edit import CreateView, DeleteView, FormMixin, UpdateView
 
 from achievements.tasks import (
-    set_all_habits_for_day_done_achievement,
     set_daily_streak_achievement,
     set_fail_first_habit_achievement,
     set_first_habit_achievement,
@@ -27,7 +18,6 @@ from achievements.tasks import (
 
 from .forms import CategoryForm, HabitForm
 from .models import Category, Habit
-from .tasks import reset_daily, reset_interval, set_status_if_none
 
 
 class AddHabitMixin(FormMixin):
@@ -49,7 +39,7 @@ class CategoryListView(LoginRequiredMixin, ListView, AddHabitMixin):
     model = Category
     template_name = "habits/categories.html"
 
-    def get_queryset(self) -> QuerySet[Category]:
+    def get_queryset(self):
         queryset = Category.objects.filter(user=self.request.user.profile)
         return queryset
 
