@@ -34,3 +34,5 @@ jobs:
         poetry run python manage.py test
       env:
         ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
+        USE_AWS: ${{ secrets.USE_AWS }}
+        USE_CELERY: ${{ secrets.USE_CELERY }}
