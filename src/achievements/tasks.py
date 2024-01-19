@@ -1,6 +1,7 @@
 import datetime
+from abc import ABC, abstractmethod
 
-from celery import shared_task
+from celery import Task, shared_task
 from celery.utils.log import get_task_logger
 
 from habits.models import Habit
@@ -11,65 +12,77 @@ from .models import Achievement
 logger = get_task_logger(__name__)
 
 
+def save_achievement(achievement_name: str, user: Profile, log_text: str) -> None:
+    achievement = Achievement.objects.get(name=achievement_name)
+    achievement.user.add(user)
+    logger.info(log_text)
+
+
 @shared_task
-def set_first_habit_achievement(user: Profile) -> str | None:
+def set_first_habit_achievement(self, user: Profile) -> str | None:
     if Habit.objects.filter(user=user).count() == 1:
-        first_habit_achievement = Achievement.objects.get(name="Hello there")
-        first_habit_achievement.user.add(user)
-        logger.info("Hello there - admit")
+        save_achievement(
+            achievement_name="Hello there", user=user, log_text="Hello there - admit"
+        )
         return "Admitted"
 
 
 @shared_task
-def set_daily_streak_achievement(user: Profile) -> str | None:
+def set_daily_streak_achievement(self, user: Profile) -> str | None:
     habits = Habit.objects.filter(user=user)
     for habit in habits:
         if habit.streak_count == 100:
-            achievement = Achievement.objects.get(name="Centurion")
-            achievement.user.add(user)
-            logger.info("Centurion - admit")
+            save_achievement(
+                achievement_name="Centurion", user=user, log_text="Centurion - admit"
+            )
             return "Admitted"
         if habit.streak_count == 50:
-            achievement = Achievement.objects.get(name="Unstoppable for 50 Days")
-            achievement.user.add(user)
-            logger.info("Unstoppable for 50 Days - admit")
+            save_achievement(
+                achievement_name="Unstoppable for 50 Days",
+                user=user,
+                log_text="Unstoppable for 50 Days - admit",
+            )
             return "Admitted"
         if habit.streak_count == 10:
-            achievement = Achievement.objects.get(name="Shot at 10!")
-            achievement.user.add(user)
-            logger.info("Shot at 10! - admit")
+            save_achievement(
+                achievement_name="Shot at 10!",
+                user=user,
+                log_text="Shot at 10! - admit",
+            )
             return "Admitted"
 
 
 @shared_task
-def set_all_habits_for_day_done_achievement(user: Profile) -> str | None:
+def set_all_habits_for_day_done_achievement(self, user: Profile) -> str | None:
     habits = Habit.objects.filter(user=user).exclude(
         execution_date=datetime.date.today(), active=True
     )
     if not habits.exists():
-        achievement = Achievement.objects.get(name="Disciplined")
-        achievement.user.add(user)
-        logger.info("Disciplined - admit")
+        save_achievement(
+            achievement_name="Disciplined", user=user, log_text="Disciplined - admit"
+        )
         return "Admitted"
 
 
 @shared_task
-def set_skip_first_habit_achievement(user: Profile) -> str | None:
+def set_skip_first_habit_achievement(self, user: Profile) -> str | None:
     habits = Habit.objects.filter(user=user)
     for habit in habits:
         if habit.skipped_count == 1:
-            achievement = Achievement.objects.get(name="Sloth")
-            achievement.user.add(user)
-            logger.info("Sloth - admit")
+            save_achievement(
+                achievement_name="Sloth", user=user, log_text="Sloth - admit"
+            )
             return "Admitted"
 
 
 @shared_task()
-def set_fail_first_habit_achievement(user: Profile) -> str | None:
+def set_fail_first_habit_achievement(self, user: Profile) -> str | None:
     habits = Habit.objects.filter(user=user)
     for habit in habits:
         if habit.failed_count == 1:
-            achievement = Achievement.objects.get(name="First defeat")
-            achievement.user.add(user)
-            logger.info("First defeat - admit")
+            save_achievement(
+                achievement_name="First defeat",
+                user=user,
+                log_text="First defeat - admit",
+            )
             return "Admitted"
