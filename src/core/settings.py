@@ -195,13 +195,14 @@ if env("USE_CELERY"):
     CELERY_TIMEZONE = env("CELERY_TIMEZONE")
     CELERY_RESULT_BACKEND = env("CELERY_RESULT_BACKEND")
 
-# Email settings
-EMAIL_USE_TLS = True
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_HOST_USER = env("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
-EMAIL_PORT = env("EMAIL_PORT")
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+if env("USE_EMAIL"):
+    # Email settings
+    EMAIL_USE_TLS = True
+    EMAIL_HOST = "smtp.gmail.com"
+    EMAIL_HOST_USER = env("EMAIL_HOST_USER")
+    EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+    EMAIL_PORT = env("EMAIL_PORT")
+    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 # AWS settings
 if env("USE_AWS"):
