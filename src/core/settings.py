@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     "django_celery_results",
     "django_extensions",
     "colorfield",
-    "channels",
 ]
 
 INSTALLED_EXTENSIONS = ["start", "users", "habits", "statistics", "achievements"]
@@ -195,8 +194,8 @@ if env("USE_CELERY"):
     CELERY_TIMEZONE = env("CELERY_TIMEZONE")
     CELERY_RESULT_BACKEND = env("CELERY_RESULT_BACKEND")
 
+# Email settings
 if env("USE_EMAIL"):
-    # Email settings
     EMAIL_USE_TLS = True
     EMAIL_HOST = "smtp.gmail.com"
     EMAIL_HOST_USER = env("EMAIL_HOST_USER")
