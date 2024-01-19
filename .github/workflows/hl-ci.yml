@@ -36,3 +36,4 @@ jobs:
         ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
         USE_AWS: ${{ secrets.USE_AWS }}
         USE_CELERY: ${{ secrets.USE_CELERY }}
+        USE_EMAIL: ${{ secrets.USE_EMAIL }}
