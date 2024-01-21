@@ -8,5 +8,5 @@ class Notification(models.Model):
 
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     message = models.CharField(max_length=250)
-    status = (models.CharField(max_length=6, choices=STATUS_CHOICES, default="UNSEEN"),)
+    status = models.CharField(max_length=6, choices=STATUS_CHOICES, default="UNSEEN")
     create_date = models.DateTimeField(auto_now_add=True)
