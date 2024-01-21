@@ -164,6 +164,28 @@
                                 <a href="{% url 'logout' %}">Logout&nbsp<i class='fas fa-power-off'></i></a>
                             </li>
                         </ul>
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="container-fluid p-3"
+                                     style="position: relative;
+                                            height: 100%;
+                                            right: 30px;
+                                            top: 350px">
+                                    <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+                                        <button type="button"
+                                                class="close"
+                                                data-dismiss="alert"
+                                                aria-label="Close"
+                                                style="position: relative;
+                                                       top: -15px;
+                                                       left: 60px">
+                                            <span aria-hidden="true">×</span>
+                                        </button>
+                                        {{ message }}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
                     </nav>
                 </aside>
                 <!-- END COLORLIB-ASIDE -->
@@ -192,6 +214,37 @@
                                                 bottom: 47px"
                                          class="avatar img-circle"
                                          alt="avatar">
+                                    {% if not notifications %}
+                                    {% else %}
+                                        <div style="position: absolute;
+                                                    top: -5px;
+                                                    left: 875px;
+                                                    background-color: red;
+                                                    width: 20px;
+                                                    height: 20px;
+                                                    border-radius: 50px;
+                                                    z-index: 2">
+                                            <h6 style="position: relative;
+                                                       color: black;
+                                                       font-weight: bold;
+                                                       left: 75%;
+                                                       top: 50%;
+                                                       transform: translate(-50%, -50%)">
+                                                {{ notifications_number }}
+                                            </h6>
+                                        </div>
+                                    {% endif %}
+                                    <button class="button-31"
+                                            type="button"
+                                            data-toggle="modal"
+                                            data-target="#notifications"
+                                            style="position: absolute;
+                                                   left: 57%;
+                                                   width: 70px;
+                                                   height: 30px">
+                                        <i class="fa fa-bell" style="font-size:24px"></i>
+                                    </button>
+                                    {% include 'notifications/notifications.html' %}
                                     <a href="{% url 'categories' %}">
                                         <button class="button-31" style="position: absolute; left: 65%" role="button">Add Category +</button>
                                     </a>
@@ -206,18 +259,6 @@
                                 <!-- ADD HABIT MODAL -->
                                 {% include 'habits/add_habit_modal.html' %}
                                 <!-- -->
-                                {% if messages %}
-                                    {% for message in messages %}
-                                        <div class="container-fluid p-3">
-                                            <div class="alert {{ message.tags }} alert-dismissible" role="alert">
-                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                                    <span aria-hidden="true">×</span>
-                                                </button>
-                                                {{ message }}
-                                            </div>
-                                        </div>
-                                    {% endfor %}
-                                {% endif %}
                                 {% block content %}
                                     <!-- HABITS LIST -->
                                     <div class="container" style="position: relative; right: 100px;">
