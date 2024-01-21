@@ -1,0 +1,33 @@
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<div class="modal fade"
+     id="notifications"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="notifications"
+     aria-hidden="true">
+    <div class="modal-dialog"
+         role="document"
+         style="position: fixed;
+                width: 80%;
+                max-width: 800px;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%)">
+        <div class="modal-content" style="height: 500px;">
+            <!-- MODAL CONTENT -->
+            <div class="modal-body">
+                {% if not notifications %}
+                    <h3 style="position: fixed;
+                               top: 50%;
+                               left: 50%;
+                               color: black;
+                               font-family: Georgia, Times, serif;
+                               transform: translate(-50%, -50%)">No notifications yet</h3>
+                {% endif %}
+                <div></div>
+            </div>
+        </div>
+    </div>
+</div>
