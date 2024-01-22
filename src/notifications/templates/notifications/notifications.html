@@ -18,15 +18,35 @@
         <div class="modal-content" style="height: 500px;">
             <!-- MODAL CONTENT -->
             <div class="modal-body">
-                {% if not notifications %}
-                    <h3 style="position: fixed;
-                               top: 50%;
-                               left: 50%;
-                               color: black;
-                               font-family: Georgia, Times, serif;
-                               transform: translate(-50%, -50%)">No notifications yet</h3>
-                {% endif %}
-                <div></div>
+                <h3 style="position: relative;
+                           font-family: Georgia, Times, serif;
+                           left: 40%">Notifications</h3>
+                <hr style="color: black;">
+                <div style="overflow-y: auto; padding: 10px; height: 390px;">
+                    {% for notification in notifications %}
+                        {% if not notification %}
+                            <h3 style="position: fixed;
+                                       top: 50%;
+                                       left: 50%;
+                                       color: black;
+                                       font-family: Georgia, Times, serif;
+                                       transform: translate(-50%, -50%)">No notifications yet</h3>
+                        {% endif %}
+                        <div style="height: 100px;
+                                    width: 100%;
+                                    border-radius: 10px;
+                                    background-color: rgba(220, 220, 220, 0.6)">
+                            <h6 style="margin-left: 10px; color: black;">{{ notification.create_date }}</h6>
+                            <h5 style="margin-left: 20px;
+                                       margin-right: 15px;
+                                       color: black;
+                                       font-family: Georgia, Times, serif">
+                                {{ notification.message }} Congratulations, you can check your achievement in <a href="{% url 'achievements' %}">Achievements</a> card.
+                            </h5>
+                        </div>
+                        <hr>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>
