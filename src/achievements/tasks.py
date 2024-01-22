@@ -19,8 +19,10 @@ def save_achievement(achievement_name: str, user: Profile, log_text: str) -> Non
     logger.info(log_text)
 
 
-def send_notification(recipient: Union[Profile, int]) -> None:
-    notification_text = "Achievement get!! Congratulations, you can check your achievement in Achievement card."
+def send_achievement_notification(
+    recipient: Union[Profile, int], achievement_name: str
+) -> None:
+    notification_text = f'Achievement "{achievement_name}" get!!'
 
     if isinstance(recipient, int):
         recipient = Profile.objects.get(pk=recipient)
@@ -34,7 +36,7 @@ def set_first_habit_achievement(user: Profile) -> str | None:
         save_achievement(
             achievement_name="Hello there", user=user, log_text="Hello there - admit"
         )
-        send_notification(recipient=user)
+        send_achievement_notification(recipient=user, achievement_name="Hello there")
         return "Admitted"
 
 
@@ -46,7 +48,7 @@ def set_daily_streak_achievement(user: Profile) -> str | None:
             save_achievement(
                 achievement_name="Centurion", user=user, log_text="Centurion - admit"
             )
-            send_notification(recipient=user)
+            send_achievement_notification(recipient=user, achievement_name="Centurion")
             return "Admitted"
         if habit.streak_count == 50:
             save_achievement(
@@ -54,7 +56,9 @@ def set_daily_streak_achievement(user: Profile) -> str | None:
                 user=user,
                 log_text="Unstoppable for 50 Days - admit",
             )
-            send_notification(recipient=user)
+            send_achievement_notification(
+                recipient=user, achievement_name="Unstoppable for 50 days"
+            )
             return "Admitted"
         if habit.streak_count == 10:
             save_achievement(
@@ -62,7 +66,9 @@ def set_daily_streak_achievement(user: Profile) -> str | None:
                 user=user,
                 log_text="Shot at 10! - admit",
             )
-            send_notification(recipient=user)
+            send_achievement_notification(
+                recipient=user, achievement_name="Shot at 10!"
+            )
             return "Admitted"
 
 
@@ -75,25 +81,29 @@ def set_all_habits_for_day_done_achievement(user: Profile) -> str | None:
         save_achievement(
             achievement_name="Disciplined", user=user, log_text="Disciplined - admit"
         )
-        send_notification(recipient=user)
+        send_achievement_notification(recipient=user, achievement_name="Disciplined")
         return "Admitted"
 
 
 @shared_task
 def set_skip_first_habit_achievement(user: Profile) -> str | None:
     habits = Habit.objects.filter(user=user)
+    if Achievement.objects.filter(user=user, achievement_name="Sloth").exists():
+        return "Already awarded"
     for habit in habits:
         if habit.skipped_count == 1:
             save_achievement(
                 achievement_name="Sloth", user=user, log_text="Sloth - admit"
             )
-            send_notification(recipient=user)
+            send_achievement_notification(recipient=user, achievement_name="Sloth")
             return "Admitted"
 
 
 @shared_task()
 def set_fail_first_habit_achievement(user: Profile) -> str | None:
     habits = Habit.objects.filter(user=user)
+    if Achievement.objects.filter(user=user, achievement_name="First defeat").exists():
+        return "Already awarded"
     for habit in habits:
         if habit.failed_count == 1:
             save_achievement(
@@ -101,5 +111,7 @@ def set_fail_first_habit_achievement(user: Profile) -> str | None:
                 user=user,
                 log_text="First defeat - admit",
             )
-            send_notification(recipient=user)
+            send_achievement_notification(
+                recipient=user, achievement_name="First defeat"
+            )
             return "Admitted"
