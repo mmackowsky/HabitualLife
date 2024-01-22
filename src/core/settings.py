@@ -42,7 +42,14 @@ INSTALLED_APPS = [
     "colorfield",
 ]
 
-INSTALLED_EXTENSIONS = ["start", "users", "habits", "statistics", "achievements"]
+INSTALLED_EXTENSIONS = [
+    "start",
+    "users",
+    "habits",
+    "stats",
+    "achievements",
+    "notifications",
+]
 
 INSTALLED_APPS += INSTALLED_EXTENSIONS
 
