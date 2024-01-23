@@ -22,6 +22,7 @@
   <li><img src="https://github.com/mmackowsky/HabitualLife/assets/123114901/0dbf9713-295d-4395-93b5-0ebe471d4238" width=20> Celery</li>
   <li><img src="https://github.com/mmackowsky/HabitualLife/assets/123114901/9ffb3ef3-76a6-48da-acf2-787e8062d05e" width=20> PostgreSQL 15</li>
   <li><img src="https://github.com/mmackowsky/HabitualLife/assets/123114901/3ab3f47d-b088-4473-bec4-330882f78bfb" width=15> Docker</li>
+  <li><img src="https://github.com/mmackowsky/HabitualLife/assets/123114901/fd90329c-e363-430a-8593-952ac694c1be" width="15"> Poetry</li>
   <li><img src="https://github.com/mmackowsky/HabitualLife/assets/123114901/641d7f07-1ef1-4acd-94a5-6efc43545468" width=17> AWS</li>
 </ul>
 
