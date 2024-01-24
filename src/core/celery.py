@@ -15,6 +15,11 @@ app = Celery("core")
 #   should have a `CELERY_` prefix.
 app.config_from_object("django.conf:settings", namespace="CELERY")
 
+app.conf.update(
+    broker_url="redis://localhost:6379/0",
+    broker_connection_retry_on_startup=True,
+)
+
 # Load task modules from all registered Django apps.
 app.autodiscover_tasks()
 
