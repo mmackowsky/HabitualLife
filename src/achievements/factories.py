@@ -14,3 +14,11 @@ class AchievementFactory(factory.django.DjangoModelFactory):
     user = factory.SubFactory(ProfileFactory)
     name = fake.word()
     description = fake.text()
+
+    @factory.post_generation
+    def user(self, create, extracted, **kwargs):
+        if not create:
+            return
+
+        if extracted:
+            self.user.set([extracted])
