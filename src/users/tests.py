@@ -2,21 +2,22 @@ from http import HTTPStatus
 
 from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
-from django.test import TestCase
+from django.test import TestCase, Client
 from django.urls import reverse
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 
 from .models import Profile
 from .views import ActivateView
+from .factories import UserFactory, ProfileFactory
 
 
 class UsersViewsTest(TestCase):
     def setUp(self):
-        self.user = User.objects.create_user(
+        self.user = UserFactory(
             username="testuser", email="test@example.com", password="testpassword"
         )
-        self.profile = Profile.objects.create(user=self.user)
+        self.profile = ProfileFactory(user=self.user)
 
     def test_signup_view(self):
         response = self.client.get(reverse("signup"))
