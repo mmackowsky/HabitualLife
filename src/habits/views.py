@@ -15,6 +15,7 @@ from achievements.tasks import (
     set_first_habit_achievement,
     set_skip_first_habit_achievement,
 )
+from notifications.views import NotificationsListMixin
 
 from .forms import CategoryForm, HabitForm
 from .models import Category, Habit
@@ -35,7 +36,9 @@ class AddHabitMixin(FormMixin):
         return context
 
 
-class CategoryListView(LoginRequiredMixin, ListView, AddHabitMixin):
+class CategoryListView(
+    LoginRequiredMixin, ListView, AddHabitMixin, NotificationsListMixin
+):
     model = Category
     template_name = "habits/categories.html"
 
@@ -94,7 +97,9 @@ class CategoryUpdateView(LoginRequiredMixin, UpdateView):
         return super().form_valid(form)
 
 
-class HabitListView(LoginRequiredMixin, ListView, AddHabitMixin):
+class HabitListView(
+    LoginRequiredMixin, ListView, AddHabitMixin, NotificationsListMixin
+):
     model = Habit
     template_name = "main.html"
     form_class = HabitForm
@@ -160,10 +165,9 @@ class HabitUpdateView(LoginRequiredMixin, UpdateView):
 
         # Achievements tasks.
         user = self.request.user.profile.id
-        set_skip_first_habit_achievement.delay(user)
-        set_fail_first_habit_achievement.delay(user)
-        set_daily_streak_achievement.delay(user)
-        # set_all_habits_for_day_done_achievement.delay(user)
+        set_skip_first_habit_achievement.delay(user=user)
+        set_fail_first_habit_achievement.delay(user=user)
+        set_daily_streak_achievement.delay(user=user)
 
         habit.status = new_status
         habit.active = False
