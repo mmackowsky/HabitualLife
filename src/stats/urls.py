@@ -1,5 +1,5 @@
 from django.urls import path
 
-from .views import habit_statistics
+from .views import HabitStatisticsView
 
-urlpatterns = [path("stats/", habit_statistics, name="stats")]
+urlpatterns = [path("stats/", HabitStatisticsView.as_view(), name="stats")]
