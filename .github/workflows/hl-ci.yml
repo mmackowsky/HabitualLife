@@ -34,7 +34,6 @@ jobs:
         poetry run python manage.py test
       env:
         ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
-        USE_AWS: ${{ secrets.USE_AWS }}
         USE_CELERY: ${{ secrets.USE_CELERY }}
         USE_EMAIL: ${{ secrets.USE_EMAIL }}
         CELERY_BROKER_TRANSPORT_URL: ${{ secrets.CELERY_BROKER_TRANSPORT_URL }}
