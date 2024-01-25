@@ -326,7 +326,15 @@
                                                                 right: 20px;
                                                                 color: black">{{ habit.name }}</div>
                                                     <div class="widget-subheading" style="position: relative; right: 20px;">
-                                                        <i>{{ habit.category }}</i>
+                                                        {% if habit.is_positive %}
+                                                            <i style="display: inline">{{ habit.category }} -
+                                                                <p style="color: darkgreen; display: inline">CREATING HABIT</p>
+                                                            </i>
+                                                        {% else %}
+                                                            <i style="display: inline">{{ habit.category }} -
+                                                                <p style="color: darkred; display: inline">BREAKING HABIT</p>
+                                                            </i>
+                                                        {% endif %}
                                                     </div>
                                                 </div>
                                                 <div class="widget-content-right" style="position: relative">
@@ -577,7 +585,15 @@
                                                                 right: 20px;
                                                                 color: black">{{ habit.name }}</div>
                                                     <div class="widget-subheading" style="position: relative; right: 20px;">
-                                                        <i>{{ habit.category }}</i>
+                                                        {% if habit.is_positive %}
+                                                            <i style="display: inline">{{ habit.category }} -
+                                                                <p style="color: darkgreen; display: inline">CREATING HABIT</p>
+                                                            </i>
+                                                        {% else %}
+                                                            <i style="display: inline">{{ habit.category }} -
+                                                                <p style="color: darkred; display: inline">BREAKING HABIT</p>
+                                                            </i>
+                                                        {% endif %}
                                                     </div>
                                                 </div>
                                                 <div class="widget-content-right" style="position: relative">
