@@ -1,3 +1,5 @@
+from django.http import JsonResponse
+from django.views.generic import UpdateView
 from django.views.generic.base import ContextMixin
 
 from .models import Notification
@@ -13,3 +15,11 @@ class NotificationsListMixin(ContextMixin):
             user=self.request.user.profile
         ).count()
         return context
+
+
+class NotificationUpdateView(NotificationsListMixin, UpdateView):
+    model = Notification
+
+    def get(self, request, *args, **kwargs):
+        Notification.objects.filter(status="UNSEEN").update(status="SEEN")
+        return JsonResponse({"message": "Status updated successfully"})
