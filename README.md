@@ -46,3 +46,11 @@ Docker/Docker Compose: <br/>
 <img src="https://github.com/mmackowsky/HabitualLife/assets/123114901/355398b6-8429-47fe-a0a4-f2160280f0b9">
 <img src="https://github.com/mmackowsky/HabitualLife/assets/123114901/b62e2233-1b50-412b-99b1-f0a4775fc3d7">
 <img src="https://github.com/mmackowsky/HabitualLife/assets/123114901/98bf5464-a6cf-4b58-8643-8cf79a20cd96">
+<img src="https://github.com/mmackowsky/HabitualLife/assets/123114901/2098056d-9874-4a3c-af27-3e6f1019ad23">
+<img src="https://github.com/mmackowsky/HabitualLife/assets/123114901/53e07cb4-ffdd-4453-9430-dfc658103085">
+<img src="https://github.com/mmackowsky/HabitualLife/assets/123114901/1b4eb7c5-d45a-47df-a89b-60012f7ee3ed">
+<img src="https://github.com/mmackowsky/HabitualLife/assets/123114901/a2f43d47-d0ff-4e9e-8a80-ac9e80fc7ec0">
+<img src="https://github.com/mmackowsky/HabitualLife/assets/123114901/b6c8fb6c-d3c3-4d23-9ff1-2865a7429db4">
+<img src="https://github.com/mmackowsky/HabitualLife/assets/123114901/84a2c6b9-4685-4c4b-b659-99136744a4a0">
+<img src="https://github.com/mmackowsky/HabitualLife/assets/123114901/0afe7b89-686b-4b76-bb75-1fd51bf9a3c5">
+<img src="https://github.com/mmackowsky/HabitualLife/assets/123114901/ebd319aa-31b1-42b5-818a-f493a1f3b45b">
