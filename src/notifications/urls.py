@@ -1,11 +1,11 @@
 from django.urls import path
 
-from .views import NotificationsUpdateView
+from .views import NotificationUpdateView
 
 urlpatterns = [
     path(
         "notifications_status_update/",
-        NotificationsUpdateView.as_view(),
+        NotificationUpdateView.as_view(),
         name="notifications_status_update",
     )
 ]
