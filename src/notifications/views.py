@@ -10,9 +10,9 @@ class NotificationsListMixin(ContextMixin):
         context = super().get_context_data()
         context["notifications"] = Notification.objects.filter(
             user=self.request.user.profile
-        )
+        ).order_by("-create_date")
         context["notifications_number"] = Notification.objects.filter(
-            user=self.request.user.profile
+            user=self.request.user.profile, status="UNSEEN"
         ).count()
         return context
 
