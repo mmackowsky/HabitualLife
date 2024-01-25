@@ -123,6 +123,26 @@
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
             <script src='https://kit.fontawesome.com/a076d05399.js'
                     crossorigin='anonymous'></script>
+            <script>
+                $(document).ready(function() {
+                    // Po kliknięciu w przycisk otwierający modal
+                    $("#notifications_button").on("click", function () {
+                        // Ukrycie liczby powiadomień
+                        $("#notifications_number").hide();
+
+                    $.ajax({
+                        url: "{% url 'notifications_status_update' %}",  // Dodaj odpowiedni URL
+                        method: "GET",
+                        success: function(response){
+                            console.log("Status updated successfully");
+                        },
+                        error: function(error){
+                            console.error("Error updating status: ", error);
+                        }
+                    });
+                    });
+                });
+            </script>
         </head>
         <body>
             <div id="colorlib-page">
@@ -214,27 +234,31 @@
                                                 bottom: 47px"
                                          class="avatar img-circle"
                                          alt="avatar">
-                                    {% if not notifications %}
-                                    {% else %}
-                                        <div style="position: absolute;
-                                                    top: -5px;
-                                                    left: 875px;
-                                                    background-color: red;
-                                                    width: 20px;
-                                                    height: 20px;
-                                                    border-radius: 50px;
-                                                    z-index: 2">
-                                            <h6 style="position: relative;
-                                                       color: black;
-                                                       font-weight: bold;
-                                                       left: 75%;
-                                                       top: 50%;
-                                                       transform: translate(-50%, -50%)">
-                                                {{ notifications_number }}
-                                            </h6>
-                                        </div>
-                                    {% endif %}
+                                    {% for notification in notifications %}
+                                        {% if notification.status == "SEEN" %}
+                                        {% else %}
+                                            <div style="position: absolute;
+                                                        top: -5px;
+                                                        left: 875px;
+                                                        background-color: red;
+                                                        width: 20px;
+                                                        height: 20px;
+                                                        border-radius: 50px;
+                                                        z-index: 2"
+                                                 id="notifications_number">
+                                                <h6 style="position: relative;
+                                                           color: black;
+                                                           font-weight: bold;
+                                                           left: 75%;
+                                                           top: 50%;
+                                                           transform: translate(-50%, -50%)">
+                                                    {{ notifications_number }}
+                                                </h6>
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
                                     <button class="button-31"
+                                            id="notifications_button"
                                             type="button"
                                             data-toggle="modal"
                                             data-target="#notifications"
