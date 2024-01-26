@@ -15,7 +15,6 @@ from achievements.tasks import (
     set_first_habit_achievement,
     set_skip_first_habit_achievement,
 )
-from notifications.views import NotificationsListMixin
 
 from .forms import CategoryForm, HabitForm
 from .models import Category, Habit
@@ -36,9 +35,7 @@ class AddHabitMixin(FormMixin):
         return context
 
 
-class CategoryListView(
-    LoginRequiredMixin, ListView, AddHabitMixin, NotificationsListMixin
-):
+class CategoryListView(LoginRequiredMixin, ListView, AddHabitMixin):
     model = Category
     template_name = "habits/categories.html"
 
@@ -97,9 +94,7 @@ class CategoryUpdateView(LoginRequiredMixin, UpdateView):
         return super().form_valid(form)
 
 
-class HabitListView(
-    LoginRequiredMixin, ListView, AddHabitMixin, NotificationsListMixin
-):
+class HabitListView(LoginRequiredMixin, ListView, AddHabitMixin):
     model = Habit
     template_name = "main.html"
     form_class = HabitForm
