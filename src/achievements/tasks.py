@@ -88,7 +88,7 @@ def set_all_habits_for_day_done_achievement(user: Profile) -> str | None:
 @shared_task
 def set_skip_first_habit_achievement(user: Profile) -> str | None:
     habits = Habit.objects.filter(user=user)
-    if Achievement.objects.filter(user=user, achievement_name="Sloth").exists():
+    if Achievement.objects.filter(user=user, name="Sloth").exists():
         return "Already awarded"
     for habit in habits:
         if habit.skipped_count == 1:
@@ -102,7 +102,7 @@ def set_skip_first_habit_achievement(user: Profile) -> str | None:
 @shared_task()
 def set_fail_first_habit_achievement(user: Profile) -> str | None:
     habits = Habit.objects.filter(user=user)
-    if Achievement.objects.filter(user=user, achievement_name="First defeat").exists():
+    if Achievement.objects.filter(user=user, name="First defeat").exists():
         return "Already awarded"
     for habit in habits:
         if habit.failed_count == 1:
