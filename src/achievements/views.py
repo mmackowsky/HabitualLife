@@ -1,11 +1,9 @@
 from django.views.generic import ListView
 
-from notifications.views import NotificationsListMixin
-
 from .models import Achievement
 
 
-class AchievementListView(ListView, NotificationsListMixin):
+class AchievementListView(ListView):
     model = Achievement
     template_name = "achievements/achievements.html"
 
