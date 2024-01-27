@@ -1,23 +1,26 @@
+from typing import Any, Dict
+
 from django.http import JsonResponse
 from django.views.generic import UpdateView
-from django.views.generic.base import ContextMixin
 
 from .models import Notification
 
 
-class NotificationsListMixin(ContextMixin):
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data()
-        context["notifications"] = Notification.objects.filter(
-            user=self.request.user.profile
-        ).order_by("-create_date")
-        context["notifications_number"] = Notification.objects.filter(
-            user=self.request.user.profile, status="UNSEEN"
-        ).count()
+def notification_list(request) -> Dict[str, Any]:
+    if request.user.is_authenticated:
+        context = {
+            "notifications": Notification.objects.filter(
+                user=request.user.profile
+            ).order_by("-create_date"),
+            "notifications_number": Notification.objects.filter(
+                user=request.user.profile, status="UNSEEN"
+            ).count(),
+        }
         return context
+    return {}
 
 
-class NotificationUpdateView(NotificationsListMixin, UpdateView):
+class NotificationUpdateView(UpdateView):
     model = Notification
 
     def get(self, request, *args, **kwargs):
