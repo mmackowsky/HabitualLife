@@ -8,7 +8,7 @@ from users.factories import ProfileFactory, UserFactory
 from .factories import NotificationFactory
 
 
-class NotificationListMixinTests(TestCase):
+class NotificationListTests(TestCase):
     def setUp(self):
         self.client = Client()
         self.user = UserFactory(username="testuser", password="testpass")
@@ -31,7 +31,7 @@ class NotificationListMixinTests(TestCase):
         self.assertIn("habits", self.response.context)
         notifications_in_context = self.response.context["notifications"]
         self.assertEqual(
-            list(notifications_in_context), [self.notification1, self.notification2]
+            list(notifications_in_context), [self.notification2, self.notification1]
         )
 
     def test_achievement_get_queryset(self):
