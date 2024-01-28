@@ -5,13 +5,10 @@ from django.views import View
 from plotly.offline import plot
 
 from habits.models import Habit
-from notifications.views import NotificationsListMixin
 
 
-class HabitStatisticsView(View, NotificationsListMixin):
+class HabitStatisticsView(View):
     def get(self, request):
-        notification_context = self.get_context_data()
-
         habits = Habit.objects.filter(user=request.user.profile)
 
         success_count = habits.aggregate(success_count=Sum("success_count"))[
@@ -38,6 +35,5 @@ class HabitStatisticsView(View, NotificationsListMixin):
         plot_div = plot(fig, output_type="div")
 
         context = {"plot_div": plot_div}
-        context.update(notification_context)
 
         return render(request, "stats/stats.html", context)
