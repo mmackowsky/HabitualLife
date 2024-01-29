@@ -125,13 +125,11 @@
                     crossorigin='anonymous'></script>
             <script>
                 $(document).ready(function() {
-                    // Po kliknięciu w przycisk otwierający modal
                     $("#notifications_button").on("click", function () {
-                        // Ukrycie liczby powiadomień
                         $("#notifications_number").hide();
 
                     $.ajax({
-                        url: "{% url 'notifications_status_update' %}",  // Dodaj odpowiedni URL
+                        url: "{% url 'notifications_status_update' %}",
                         method: "GET",
                         success: function(response){
                             console.log("Status updated successfully");
@@ -235,8 +233,7 @@
                                          class="avatar img-circle"
                                          alt="avatar">
                                     {% for notification in notifications %}
-                                        {% if notification.status == "SEEN" %}
-                                        {% else %}
+                                        {% if notification.status == "UNSEEN" %}
                                             <div style="position: absolute;
                                                         top: -5px;
                                                         left: 875px;
@@ -341,12 +338,12 @@
             categoryList.classList.remove('visible');
         }
     });
-    // JavaScript to get current date <time>
+
       const currentTimeElement = document.getElementById("currentTime");
-      const currentDate = new Date().toISOString().slice(0, 10); // Current date in ISO format
+      const currentDate = new Date().toISOString().slice(0, 10);
 
       currentTimeElement.textContent = currentDate;
-      currentTimeElement.setAttribute("datetime", currentDate); // Set date in datetime
+      currentTimeElement.setAttribute("datetime", currentDate); 
         </script>
     </body>
 </html>
