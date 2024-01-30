@@ -17,7 +17,6 @@
 <ul>
   <li><img src="https://github.com/mmackowsky/HabitualLife/assets/123114901/8cc0785a-7f2c-4efd-8891-7f796c934ad8" width=15> Python 3.11</li>
   <li><img src="https://github.com/mmackowsky/HabitualLife/assets/123114901/97706cba-b143-4196-b596-ac755bef7136" width=15> Django</li>
-  <li><img src="https://github.com/mmackowsky/HabitualLife/assets/123114901/e898f02d-32bc-4963-b13c-02acef82207d" width=15> Django Rest Framework</li>
   <li>HTML / CSS / Bootstrap</li>
   <li><img src="https://github.com/mmackowsky/HabitualLife/assets/123114901/0dbf9713-295d-4395-93b5-0ebe471d4238" width=20> Celery</li>
   <li><img src="https://github.com/mmackowsky/HabitualLife/assets/123114901/9ffb3ef3-76a6-48da-acf2-787e8062d05e" width=20> PostgreSQL 15</li>
