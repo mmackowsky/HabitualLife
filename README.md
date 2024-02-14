@@ -9,8 +9,8 @@
 ## General info
 <p>
   The application was created to make it easier to manage one's daily behaviors, help develop new positive habits and get rid of negative ones.
-  In addition to managing activities, users can also personalize their categories and view their data through periodic reports.
-  What's more, there is a ranking of users with, for example, the highest number of completed goals and also a system of rewards for achievements.
+  In addition to managing activities, users can also personalize their categories and view their data through dashboard and graph.
+  What's more, there is a system of achievements for complete the goals.
 </p>
 
 ## Technologies
