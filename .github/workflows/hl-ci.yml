@@ -15,7 +15,7 @@ jobs:
       max-parallel: 4
       matrix:
         python-version: ["3.11"]
-        redis-version: [7.x]
+        redis-version: ["5.0.1"]
 
     # Service containers to run with `container-job`
     services:
