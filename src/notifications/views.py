@@ -7,6 +7,11 @@ from .models import Notification
 
 
 def notification_list(request) -> Dict[str, Any]:
+    """
+    Used as context processor to display notifications on any view.
+    :param request:
+    :return:
+    """
     if request.user.is_authenticated:
         context = {
             "notifications": Notification.objects.filter(
