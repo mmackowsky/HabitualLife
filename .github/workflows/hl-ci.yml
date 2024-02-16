@@ -82,6 +82,6 @@ jobs:
         REDIS_PORT: 6379
         DB_PORT: ${{ secrets.DB_PORT }}
         DB_HOST: ${{ secrets.DB_HOST }}
-        DB_NAME: ${{ secrets.DB_NAME }}
-        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-        DB_USER: ${{ secrets.DB_USER }}
+        DB_NAME: postgres
+        DB_PASSWORD: postgres
+        DB_USER: postgres
