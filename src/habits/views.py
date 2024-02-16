@@ -21,6 +21,10 @@ from .models import Category, Habit
 
 
 class AddHabitMixin(FormMixin):
+    """
+    Mixin for adding habit on other apps views.
+    """
+
     model = Habit
     form_class = HabitForm
 
