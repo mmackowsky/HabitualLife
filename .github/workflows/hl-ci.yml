@@ -29,22 +29,22 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-#      postgres:
-#        # Docker Hub image
-#        image: postgres
-#        # Provide the password for postgres
-#        env:
-#          DB_NAME: ${{ secrets.DB_NAME }}
-#          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-#          DB_USER: ${{ secrets.DB_USER }}
-#        # Set health checks to wait until postgres has started
-#        ports:
-#          - 5432:5432
-#        options: >-
-#          --health-cmd pg_isready
-#          --health-interval 10s
-#          --health-timeout 5s
-#          --health-retries 5...
+      postgres:
+        # Docker Hub image
+        image: postgres
+        # Provide the password for postgres
+        env:
+          DB_NAME: ${{ secrets.DB_NAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_USER: ${{ secrets.DB_USER }}
+        # Set health checks to wait until postgres has started
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5...
 
     steps:
     - uses: actions/checkout@v3
