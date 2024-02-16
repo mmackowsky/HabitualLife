@@ -34,7 +34,7 @@ jobs:
         image: postgres
         # Provide the password for postgres
         env:
-          DB_NAME: ${{ secrets.DB_NAME }}
+          DB_NAME: 'habituallife_db'
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           DB_USER: ${{ secrets.DB_USER }}
         # Set health checks to wait until postgres has started
