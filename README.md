@@ -11,6 +11,10 @@
   The application was created to make it easier to manage one's daily behaviors, help develop new positive habits and get rid of negative ones.
   In addition to managing activities, users can also personalize their categories and view their data through dashboard and graph.
   What's more, there is a system of achievements for complete the goals.
+<br>
+  Celery handles asynchronous operations like refreshing some data with time lapse for example current status of each habit.
+<br>
+  Poetry is used as an alternative to the default virtual environment for easier management of dependencies.
 </p>
 
 ## Technologies
