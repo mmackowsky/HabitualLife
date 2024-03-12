@@ -34,8 +34,9 @@ Info about required keys/data in file .env.dist <br/>
 GIT: <br/>
 Clone repository
 ```git clone https://github.com/mmackowsky/HabitualLife.git``` <br/>
-Install requirements
-```pip install requirements.txt``` <br/>
+Install requirements: <br/>
+<br> To install requirements you need to install Poetry first and then run
+```poetry install``` <br/>
 Make migrations
 ```python manage.py makemigrations``` -> ```python manage.py migrate``` <br/>
 Run app
