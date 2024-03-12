@@ -34,7 +34,7 @@ Info about required keys/data in file .env.dist <br/>
 **GIT:** <br/>
 Clone repository
 ```git clone https://github.com/mmackowsky/HabitualLife.git``` <br/><br/>
-**Install requirements:**
+**Install requirements:** <br/>
 To install requirements you need to install Poetry first and then run
 ```poetry install``` <br/><br/>
 **Make migrations**
