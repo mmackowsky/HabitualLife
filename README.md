@@ -31,15 +31,15 @@
 
 ## Setup
 Info about required keys/data in file .env.dist <br/>
-GIT: <br/>
+**GIT:** <br/>
 Clone repository
-```git clone https://github.com/mmackowsky/HabitualLife.git``` <br/>
-Install requirements: <br/>
-<br> To install requirements you need to install Poetry first and then run
-```poetry install``` <br/>
-Make migrations
+```git clone https://github.com/mmackowsky/HabitualLife.git``` <br/><br/>
+**Install requirements:**
+To install requirements you need to install Poetry first and then run
+```poetry install``` <br/><br/>
+**Make migrations**
 ```python manage.py makemigrations``` -> ```python manage.py migrate``` <br/>
-Run app
+**Run app**
 ```python manage.py runserver```
 <br/><br/>
 
