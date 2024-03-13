@@ -30,6 +30,8 @@
 </ul>
 
 ## Setup
+<details>
+<summary>Find out</summary>
 Info about required keys/data in file .env.dist <br/>
 **GIT:** <br/>
 Clone repository
@@ -45,6 +47,7 @@ To install requirements you need to install Poetry first and then run
 
 Docker/Docker Compose: <br/>
 ```docker-compose build``` -> ```docker-compose up```
+</details>
 
 ## App appearance
 <img src="https://github.com/mmackowsky/HabitualLife/assets/123114901/355398b6-8429-47fe-a0a4-f2160280f0b9">
